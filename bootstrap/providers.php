@@ -1,7 +1,7 @@
 <?php
 
 return [
-    AppProvidersAppServiceProvider::class,
-    AppProvidersViewComposerServiceProvider::class,
-    AppProvidersFilamentAdminPanelProvider::class,
+    App\Providers\AppServiceProvider::class,
+    App\Providers\ViewComposerServiceProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
 ];
