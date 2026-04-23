@@ -13,7 +13,7 @@
     @forelse($posts as $post)
         <article class="bg-white rounded-lg shadow p-6">
             @if($post->cover_image)
-                <img src="{{ $post->cover_image }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
             @endif
             <h2 class="text-xl font-bold mb-2">
                 <a href="{{ route('blog.show', $post->slug) }}" class="text-gray-900 hover:text-blue-600">{{ $post->title }}</a>

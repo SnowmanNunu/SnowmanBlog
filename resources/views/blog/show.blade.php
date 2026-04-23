@@ -5,7 +5,7 @@
 @section('content')
 <article class="bg-white rounded-lg shadow p-8">
     @if($post->cover_image)
-        <img src="{{ $post->cover_image }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
+        <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
     @endif
 
     <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
