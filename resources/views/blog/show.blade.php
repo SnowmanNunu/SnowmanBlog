@@ -26,4 +26,7 @@
         @endforeach
     </div>
 </article>
+
+@include('blog.comments_list')
+@include('blog.comment_form')
 @endsection

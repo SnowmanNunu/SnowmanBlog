@@ -16,6 +16,7 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('blog.index') }}" class="text-gray-600 hover:text-gray-900">首页</a>
+                    <a href="{{ route('guestbook.index') }}" class="text-gray-600 hover:text-gray-900">留言板</a>
                     <a href="/admin" class="text-gray-600 hover:text-gray-900">后台管理</a>
                 </div>
             </div>
