@@ -1,9 +1,9 @@
 <?php
 
-namespace AppHttpControllers;
+namespace App\Http\Controllers;
 
-use AppModelsPost;
-use IlluminateHttpRequest;
+use App\Models\Post;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -29,7 +29,7 @@ class BlogController extends Controller
 
     public function category($slug)
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
+        $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
         $posts = Post::published()
             ->where('category_id', $category->id)
             ->with(['category', 'user'])
@@ -41,7 +41,7 @@ class BlogController extends Controller
 
     public function tag($slug)
     {
-        $tag = Tag::where('slug', $slug)->firstOrFail();
+        $tag = \App\Models\Tag::where('slug', $slug)->firstOrFail();
         $posts = $tag->posts()
             ->published()
             ->with(['category', 'user'])
