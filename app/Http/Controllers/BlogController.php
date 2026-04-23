@@ -87,7 +87,7 @@ class BlogController extends Controller
     private function highlight(string $text, string $keyword): string
     {
         $escaped = preg_quote($keyword, '/');
-        return preg_replace('/({$escaped})/iu', '<mark class="bg-red-100 text-red-600 font-semibold px-1 rounded">$1</mark>', e($text));
+        return preg_replace("/({$escaped})/iu", '<mark class="bg-red-100 text-red-600 font-semibold px-1 rounded">$1</mark>', e($text));
     }
 
     private function getExcerpt(Post $post, string $keyword): string
