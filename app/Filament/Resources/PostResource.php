@@ -37,9 +37,11 @@ class PostResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Textarea::make('excerpt')
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('attachments'),
                 Forms\Components\FileUpload::make('cover_image')
                     ->image(),
                 Forms\Components\Toggle::make('is_published')
