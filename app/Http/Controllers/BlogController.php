@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace AppHttpControllers;
 
-use App\Models\Post;
-use Illuminate\Http\Request;
+use AppModelsPost;
+use IlluminateHttpRequest;
 
 class BlogController extends Controller
 {
@@ -62,7 +62,8 @@ class BlogController extends Controller
             ->where(function ($query) use ($keyword) {
                 $query->where('title', 'like', "%{$keyword}%")
                       ->orWhere('content', 'like', "%{$keyword}%")
-                      ->orWhere('excerpt', 'like', "%{$keyword}%");
+                      ->orWhere('excerpt', 'like', "%{$keyword}%")
+                      ->orWhere('slug', 'like', "%{$keyword}%");
             })
             ->with('category')
             ->latest('published_at')
@@ -86,7 +87,7 @@ class BlogController extends Controller
     private function highlight(string $text, string $keyword): string
     {
         $escaped = preg_quote($keyword, '/');
-        return preg_replace("/({$escaped})/iu", '<mark class="bg-yellow-200 text-yellow-900 px-0.5 rounded">$1</mark>", e($text));
+        return preg_replace('/({$escaped})/iu', '<mark class="bg-yellow-200 text-yellow-900 px-0.5 rounded">$1</mark>', e($text));
     }
 
     private function getExcerpt(Post $post, string $keyword): string
