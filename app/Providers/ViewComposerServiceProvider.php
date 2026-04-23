@@ -1,10 +1,10 @@
 <?php
 
-namespace AppProviders;
+namespace App\Providers;
 
-use AppModelsSetting;
-use IlluminateSupportFacadesView;
-use IlluminateSupportServiceProvider;
+use App\Models\Setting;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {

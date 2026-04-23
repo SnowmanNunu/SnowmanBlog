@@ -1,6 +1,6 @@
 <?php
 
 return [
-    AppProvidersAppServiceProvider::class,
-    AppProvidersViewComposerServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    App\Providers\ViewComposerServiceProvider::class,
 ];
