@@ -1,59 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SnowmanBlog
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+一个基于 Laravel + Filament 构建的个人博客系统，包含完整的前端展示与后台管理功能。
 
-## About Laravel
+## 在线预览
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 博客首页：https://blog.snowmannunu.top
+- 后台管理：https://blog.snowmannunu.top/admin
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 技术栈
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 后端
+- **Laravel 12.x** — PHP 全栈框架，提供路由、ORM、认证等基础能力
+- **PHP 8.2** — 运行环境
+- **MySQL 5.7** — 关系型数据库，存储文章、分类、标签、留言等数据
+- **Nginx + PHP-FPM** — Web 服务器与 PHP 进程管理
 
-## Learning Laravel
+### 前端
+- **Blade** — Laravel 内置模板引擎
+- **Tailwind CSS (CDN)** — 实用优先的 CSS 框架，快速构建响应式界面
+- **Alpine.js** — 轻量级 JavaScript 框架，实现搜索弹窗、下拉菜单等交互
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 后台管理
+- **Filament v3** — 基于 Laravel 的后台管理面板，提供 CRUD、表单验证、文件上传、图表统计等能力
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 部署与运维
+- **Gitee** — 代码托管与版本控制
+- **Linux 云服务器** — 生产环境部署
+- **自动推送脚本** — 定时提交并推送代码变更到远程仓库
 
-## Laravel Sponsors
+## 功能特性
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 前端展示
+- 文章列表与分页浏览
+- 文章详情页（支持封面图、分类、标签展示）
+- 文章分类与标签筛选
+- **全局实时搜索**（`Ctrl + K` 唤起，支持标题/内容/摘要搜索，关键词红色高亮）
+- 留言板（访客可发表留言，博主可在后台回复）
+- 文章评论系统（支持嵌套回复）
+- 响应式设计，适配桌面端与移动端
 
-### Premium Partners
+### 后台管理
+- **文章管理** — 发布、编辑、草稿、封面图上传
+- **分类管理** — 文章分类的增删改查
+- **标签管理** — 文章标签的增删改查
+- **留言管理** — 审核留言、博主回复
+- **评论管理** — 审核评论、回复评论
+- **站点设置** — 博客标题、描述、ICP 备案号等基础配置
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 项目结构
 
-## Contributing
+```
+snowmanblog/
+├── app/
+│   ├── Filament/Resources/      # Filament 后台资源（Post、Category、Tag、Guestbook、Comment、Setting）
+│   ├── Http/Controllers/        # 前端控制器（BlogController、GuestbookController、CommentController）
+│   ├── Models/                  # Eloquent 模型
+│   └── Providers/               # 服务提供者（视图合成器注入站点配置）
+├── resources/views/             # Blade 模板（layouts/blog.blade.php、blog/index.blade.php 等）
+├── routes/web.php               # Web 路由定义
+└── auto-push.sh                 # 自动推送脚本
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 开发说明
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+本项目是个人博客的练手与实用项目，采用简洁的架构设计，便于后续扩展与维护。
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License
