@@ -22,32 +22,98 @@
 .article-content th { background: #f9fafb; font-weight: 600; }
 </style>
 
-<article class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-    @if($post->cover_image)
-        <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
-    @endif
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- 文章主体 -->
+    <div class="lg:col-span-3">
+        <article class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+            @if($post->cover_image)
+                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
+            @endif
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $post->title }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $post->title }}</h1>
 
-    <div class="flex items-center text-sm text-gray-500 mb-8 space-x-4">
-        <span class="font-medium text-gray-700">{{ $post->user->name }}</span>
-        <span class="text-gray-300">·</span>
-        <span>{{ $post->published_at->format('Y-m-d H:i') }}</span>
-        <span class="text-gray-300">·</span>
-        <a href="{{ route('blog.category', $post->category->slug) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ $post->category->name }}</a>
+            <div class="flex items-center text-sm text-gray-500 mb-8 space-x-4">
+                <span class="font-medium text-gray-700">{{ $post->user->name }}</span>
+                <span class="text-gray-300">·</span>
+                <span>{{ $post->published_at->format('Y-m-d H:i') }}</span>
+                <span class="text-gray-300">·</span>
+                <a href="{{ route('blog.category', $post->category->slug) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ $post->category->name }}</a>
+            </div>
+
+            <div class="article-content max-w-none text-gray-700 leading-relaxed">
+                {!! Str::markdown($post->content) !!}
+            </div>
+
+            <div class="mt-10 flex flex-wrap gap-2">
+                @foreach($post->tags as $t)
+                    <a href="{{ route('blog.tag', $t->slug) }}" class="px-3 py-1 bg-blue-50 text-blue-600 text-sm rounded-full hover:bg-blue-100 transition-colors">{{ $t->name }}</a>
+                @endforeach
+            </div>
+        </article>
+
+        @include('blog.comments_list')
+        @include('blog.comment_form')
     </div>
 
-    <div class="article-content max-w-none text-gray-700 leading-relaxed">
-        {!! Str::markdown($post->content) !!}
+    <!-- 右侧目录 -->
+    <div class="hidden lg:block lg:col-span-1">
+        <div id="toc-container" class="sticky top-24 bg-white rounded-xl shadow-sm border border-gray-100 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">目录</h3>
+            <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 pl-3"></ul>
+        </div>
     </div>
+</div>
 
-    <div class="mt-10 flex flex-wrap gap-2">
-        @foreach($post->tags as $t)
-            <a href="{{ route('blog.tag', $t->slug) }}" class="px-3 py-1 bg-blue-50 text-blue-600 text-sm rounded-full hover:bg-blue-100 transition-colors">{{ $t->name }}</a>
-        @endforeach
-    </div>
-</article>
+<script>
+(function() {
+    const content = document.querySelector('.article-content');
+    const headings = content.querySelectorAll('h2, h3');
+    const tocContainer = document.getElementById('toc-container');
+    const tocList = document.getElementById('toc-list');
 
-@include('blog.comments_list')
-@include('blog.comment_form')
+    if (headings.length === 0) {
+        if (tocContainer) tocContainer.classList.add('hidden');
+        return;
+    }
+
+    headings.forEach(function(heading, index) {
+        const id = 'heading-' + index;
+        heading.id = id;
+
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = heading.textContent;
+        a.className = 'block py-1 transition-colors border-l-2 border-transparent -ml-3.5 pl-3 ' +
+            (heading.tagName === 'H3' ? 'text-gray-500 hover:text-gray-800 text-xs ml-2' : 'text-gray-600 hover:text-blue-600');
+        a.dataset.target = id;
+
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        li.appendChild(a);
+        tocList.appendChild(li);
+    });
+
+    const links = tocList.querySelectorAll('a');
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                links.forEach(function(a) {
+                    a.classList.remove('text-blue-600', 'font-medium', 'border-blue-500');
+                    a.classList.add('border-transparent');
+                    if (a.dataset.target === entry.target.id) {
+                        a.classList.add('text-blue-600', 'font-medium', 'border-blue-500');
+                        a.classList.remove('border-transparent');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+    headings.forEach(function(h) { observer.observe(h); });
+})();
+</script>
 @endsection
