@@ -22,12 +22,15 @@ class GuestbookController extends Controller
             'content' => 'required|string|max:2000',
         ]);
 
+        $isAdmin = auth()->check();
+
         Guestbook::create([
             ...$validated,
             'ip' => $request->ip(),
-            'is_approved' => false,
+            'is_approved' => $isAdmin,
         ]);
 
-        return back()->with('success', '留言提交成功，等待审核！');
+        $message = $isAdmin ? '留言已发布！' : '留言提交成功，等待审核！';
+        return back()->with('success', $message);
     }
 }

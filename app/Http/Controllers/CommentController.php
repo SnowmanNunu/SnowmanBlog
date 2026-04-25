@@ -22,22 +22,27 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
+        $isAdmin = auth()->check();
+
         $comment = Comment::create([
             ...$validated,
             'post_id' => $post->id,
             'ip' => $request->ip(),
-            'is_approved' => false,
+            'is_approved' => $isAdmin,
         ]);
 
-        try {
-            $adminEmail = Setting::get('admin_email') ?? User::first()?->email;
-            if ($adminEmail) {
-                Mail::to($adminEmail)->send(new NewCommentMail($comment));
+        if (!$isAdmin) {
+            try {
+                $adminEmail = Setting::get('admin_email') ?? User::first()?->email;
+                if ($adminEmail) {
+                    Mail::to($adminEmail)->send(new NewCommentMail($comment));
+                }
+            } catch (\Throwable $e) {
+                \Log::error('Comment notification email failed: ' . $e->getMessage());
             }
-        } catch (\Throwable $e) {
-            \Log::error('Comment notification email failed: ' . $e->getMessage());
         }
 
-        return back()->with('success', '评论提交成功，等待审核！');
+        $message = $isAdmin ? '回复已发布！' : '评论提交成功，等待审核！';
+        return back()->with('success', $message);
     }
 }
