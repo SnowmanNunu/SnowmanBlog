@@ -11,11 +11,10 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('*', function ($view) {
-            $settings = Setting::first();
-            $view->with('siteTitle', $settings?->site_title ?? 'SnowmanBlog');
-            $view->with('siteDescription', $settings?->site_description ?? '');
-            $view->with('siteIcp', $settings?->icp ?? '');
-            $view->with('siteAuthor', $settings?->author ?? '');
+            $view->with('siteTitle', Setting::get('site_title', 'SnowmanBlog'));
+            $view->with('siteDescription', Setting::get('site_description', ''));
+            $view->with('siteIcp', Setting::get('site_icp', ''));
+            $view->with('siteAuthor', Setting::get('site_author', ''));
         });
     }
 }
