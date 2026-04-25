@@ -11,7 +11,7 @@
 .article-content ul { list-style-type: disc; }
 .article-content ol { list-style-type: decimal; }
 .article-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; color: #6b7280; font-style: italic; margin-bottom: 1rem; }
-.article-content pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+.article-content pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; position: relative; }
 .article-content pre code { background: transparent; padding: 0; }
 .article-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875rem; background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #ef4444; }
 .article-content hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
@@ -20,6 +20,8 @@
 .article-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
 .article-content th, .article-content td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
 .article-content th { background: #f9fafb; font-weight: 600; }
+.copy-code-btn { position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #e2e8f0; background: rgba(255,255,255,0.1); border-radius: 0.375rem; cursor: pointer; transition: all 0.2s; border: none; }
+.copy-code-btn:hover { background: rgba(255,255,255,0.2); }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -127,6 +129,24 @@ hljs.highlightAll();
     }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
 
     headings.forEach(function(h) { observer.observe(h); });
+
+    // 代码块复制按钮
+    document.querySelectorAll('.article-content pre').forEach(function(pre) {
+        const button = document.createElement('button');
+        button.className = 'copy-code-btn';
+        button.textContent = '复制';
+        button.addEventListener('click', function() {
+            const code = pre.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(function() {
+                button.textContent = '已复制';
+                setTimeout(function() { button.textContent = '复制'; }, 2000);
+            }).catch(function() {
+                button.textContent = '失败';
+                setTimeout(function() { button.textContent = '复制'; }, 2000);
+            });
+        });
+        pre.appendChild(button);
+    });
 })();
 </script>
 @endsection

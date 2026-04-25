@@ -42,10 +42,10 @@ class PostResource extends Resource
                     ->columnSpanFull()
                     ->fileAttachmentsDisk('public')
                     ->fileAttachmentsDirectory('attachments')
-                    ->hint('图片建议不超过 2MB'),
+                    ->hint('图片建议不超过 10MB'),
                 Forms\Components\FileUpload::make('cover_image')
                     ->image()
-                    ->maxSize(2048)
+                    ->maxSize(10240)
                     ->imageResizeTargetWidth(1200),
                 Forms\Components\Toggle::make('is_published')
                     ->required(),

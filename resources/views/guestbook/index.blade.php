@@ -22,8 +22,8 @@
                     <input type="text" name="nickname" required class="w-full rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">邮箱 *</label>
-                    <input type="email" name="email" required class="w-full rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                    <input type="email" name="email" class="w-full rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">网站</label>

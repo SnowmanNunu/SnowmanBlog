@@ -45,7 +45,7 @@
                                     <input type="hidden" name="parent_id" value="{{ $comment->id }}">
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                                         <input type="text" name="nickname" required placeholder="昵称 *" class="rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <input type="email" name="email" required placeholder="邮箱 *" class="rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <input type="email" name="email" placeholder="邮箱" class="rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         <input type="url" name="website" placeholder="网站" class="rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     </div>
                                     <textarea name="content" rows="3" required placeholder="回复内容 *" class="w-full rounded border-gray-300 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>

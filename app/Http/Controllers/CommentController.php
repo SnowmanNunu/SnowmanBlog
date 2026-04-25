@@ -10,9 +10,9 @@ class CommentController extends Controller
 {
     public function store(Request $request, Post $post)
     {
-        $validated = $request-validate([
+        $validated = $request->validate([
             'nickname' => 'required|string|max:50',
-            'email' => 'required|email|max:100',
+            'email' => 'nullable|email|max:100',
             'website' => 'nullable|url|max:200',
             'content' => 'required|string|max:2000',
             'parent_id' => 'nullable|exists:comments,id',
@@ -20,11 +20,11 @@ class CommentController extends Controller
 
         Comment::create([
             ...$validated,
-            'post_id' => $post-id,
-            'ip' => $request-ip(),
+            'post_id' => $post->id,
+            'ip' => $request->ip(),
             'is_approved' => false,
         ]);
 
-        return back()-with('success', '评论提交成功，等待审核！');
+        return back()->with('success', '评论提交成功，等待审核！');
     }
 }
