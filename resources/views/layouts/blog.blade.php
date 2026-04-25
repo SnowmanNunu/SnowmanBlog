@@ -11,7 +11,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen" x-data="{ searchOpen: false }" @keydown.escape.window="searchOpen = false">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen" x-data="{ searchOpen: false, mobileMenuOpen: false }" @keydown.escape.window="searchOpen = false; mobileMenuOpen = false">
     <!-- 顶部导航 -->
     <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,8 +52,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
-                        x-data="{ mobileMenuOpen: false }">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100">
                         <svg x-show="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -65,6 +64,29 @@
             </div>
         </div>
     </nav>
+
+    <!-- 移动端菜单 -->
+    <div
+        x-show="mobileMenuOpen"
+        x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
+        class="md:hidden bg-white border-b border-gray-200 px-4 py-3 space-y-1 shadow-lg"
+    >
+        <a href="{{ route('blog.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium">首页</a>
+        <a href="{{ route('guestbook.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium">留言板</a>
+        <a href="/admin" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium">后台管理</a>
+        <button @click="mobileMenuOpen = false; searchOpen = true" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span>搜索文章</span>
+        </button>
+    </div>
 
     <!-- 搜索弹窗 -->
     <div
