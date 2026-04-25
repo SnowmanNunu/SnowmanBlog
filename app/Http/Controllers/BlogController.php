@@ -42,7 +42,20 @@ class BlogController extends Controller
             ->select('id', 'title', 'slug')
             ->first();
 
-        return view('blog.show', compact('post', 'prevPost', 'nextPost'));
+        $relatedPosts = Post::published()
+            ->where('id', '!=', $post->id)
+            ->where(function ($query) use ($post) {
+                $query->where('category_id', $post->category_id)
+                      ->orWhereHas('tags', function ($q) use ($post) {
+                          $q->whereIn('tags.id', $post->tags->pluck('id'));
+                      });
+            })
+            ->with('category')
+            ->latest('published_at')
+            ->limit(5)
+            ->get();
+
+        return view('blog.show', compact('post', 'prevPost', 'nextPost', 'relatedPosts'));
     }
 
     public function category($slug)
