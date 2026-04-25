@@ -30,7 +30,19 @@ class BlogController extends Controller
             session()->put($sessionKey, true);
         }
 
-        return view('blog.show', compact('post'));
+        $prevPost = Post::published()
+            ->where('published_at', '<', $post->published_at)
+            ->orderBy('published_at', 'desc')
+            ->select('id', 'title', 'slug')
+            ->first();
+
+        $nextPost = Post::published()
+            ->where('published_at', '>', $post->published_at)
+            ->orderBy('published_at', 'asc')
+            ->select('id', 'title', 'slug')
+            ->first();
+
+        return view('blog.show', compact('post', 'prevPost', 'nextPost'));
     }
 
     public function category($slug)

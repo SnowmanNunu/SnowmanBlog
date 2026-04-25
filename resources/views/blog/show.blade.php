@@ -63,6 +63,45 @@
             </div>
         </article>
 
+        <!-- 上一篇 / 下一篇 -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            @if($prevPost)
+                <a href="{{ route('blog.show', $prevPost->slug) }}" class="group block p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
+                    <span class="text-xs text-gray-500 group-hover:text-blue-600 uppercase tracking-wide flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        上一篇
+                    </span>
+                    <p class="mt-1 text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-blue-700">{{ $prevPost->title }}</p>
+                </a>
+            @else
+                <div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100 opacity-50">
+                    <span class="text-xs text-gray-500 uppercase tracking-wide flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        上一篇
+                    </span>
+                    <p class="mt-1 text-sm text-gray-400">没有了</p>
+                </div>
+            @endif
+
+            @if($nextPost)
+                <a href="{{ route('blog.show', $nextPost->slug) }}" class="group block p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all text-right">
+                    <span class="text-xs text-gray-500 group-hover:text-blue-600 uppercase tracking-wide flex items-center justify-end gap-1">
+                        下一篇
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </span>
+                    <p class="mt-1 text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-blue-700">{{ $nextPost->title }}</p>
+                </a>
+            @else
+                <div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100 opacity-50 text-right">
+                    <span class="text-xs text-gray-500 uppercase tracking-wide flex items-center justify-end gap-1">
+                        下一篇
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </span>
+                    <p class="mt-1 text-sm text-gray-400">没有了</p>
+                </div>
+            @endif
+        </div>
+
         @include('blog.comments_list')
         @include('blog.comment_form')
     </div>
@@ -130,7 +169,6 @@ hljs.highlightAll();
 
     headings.forEach(function(h) { observer.observe(h); });
 
-    // 代码块复制按钮（兼容非 HTTPS）
     function copyText(text) {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(text);
