@@ -1,6 +1,39 @@
 @extends('layouts.blog')
 
-@section('title', $post->title)
+@section('title', $post->meta_title ?: $post->title)
+@section('meta_description', $post->meta_description ?: ($post->excerpt ? strip_tags($post->excerpt) : ''))
+@section('meta_keywords', $post->meta_keywords ?: $post->tags->pluck('name')->implode(','))
+@section('canonical', route('blog.show', $post->slug))
+@section('og_title', ($post->meta_title ?: $post->title) . ' - ' . $siteTitle)
+@section('og_description', $post->meta_description ?: ($post->excerpt ? strip_tags($post->excerpt) : ''))
+@section('og_type', 'article')
+@if($post->cover_image)
+@section('og_image', asset('storage/' . $post->cover_image))
+@endif
+
+@php
+$jsonLd = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BlogPosting',
+    'headline' => $post->meta_title ?: $post->title,
+    'description' => $post->meta_description ?: ($post->excerpt ? strip_tags($post->excerpt) : ''),
+    'url' => route('blog.show', $post->slug),
+    'datePublished' => $post->published_at->toIso8601String(),
+    'dateModified' => $post->updated_at->toIso8601String(),
+    'author' => [
+        '@type' => 'Person',
+        'name' => $post->user->name,
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => $siteTitle,
+    ],
+];
+if ($post->cover_image) {
+    $jsonLd['image'] = asset('storage/' . $post->cover_image);
+}
+@endphp
+@section('jsonld', json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
 
 @section('content')
 <style>
@@ -102,6 +135,33 @@
             @endif
         </div>
 
+        
+        @if($relatedPosts->count() > 0)
+        <div class="mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                相关文章推荐
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($relatedPosts as $related)
+                <a href="{{ route('blog.show', $related->slug) }}" class="group block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all">
+                    @if($related->cover_image)
+                    <div class="h-32 overflow-hidden">
+                        <img src="{{ asset('storage/' . $related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    @endif
+                    <div class="p-4">
+                        <div class="text-xs text-blue-600 font-medium mb-1">{{ $related->category->name }}</div>
+                        <h4 class="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-700">{{ $related->title }}</h4>
+                        <div class="mt-2 text-xs text-gray-400">{{ $related->published_at->format('Y-m-d') }}</div>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+        </div>
+        @endif
         @include('blog.comments_list')
         @include('blog.comment_form')
     </div>
