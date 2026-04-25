@@ -12,7 +12,7 @@
 .article-content ol { list-style-type: decimal; }
 .article-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; color: #6b7280; font-style: italic; margin-bottom: 1rem; }
 .article-content pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
-.article-content pre code { background: transparent; padding: 0; color: inherit; }
+.article-content pre code { background: transparent; padding: 0; }
 .article-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875rem; background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #ef4444; }
 .article-content hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
 .article-content a { color: #2563eb; text-decoration: underline; }
@@ -21,6 +21,8 @@
 .article-content th, .article-content td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
 .article-content th { background: #f9fafb; font-weight: 600; }
 </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- 文章主体 -->
@@ -64,7 +66,10 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
+hljs.highlightAll();
+
 (function() {
     const content = document.querySelector('.article-content');
     const headings = content.querySelectorAll('h2, h3');
