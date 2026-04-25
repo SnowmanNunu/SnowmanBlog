@@ -1,11 +1,11 @@
 <?php
 
-use AppHttpControllersBlogController;
-use AppHttpControllersCommentController;
-use AppHttpControllersGuestbookController;
-use AppHttpControllersSitemapController;
-use AppHttpControllersRssController;
-use IlluminateSupportFacadesRoute;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GuestbookController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\RssController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/post/{slug}', [BlogController::class, 'show'])->name('blog.show');
