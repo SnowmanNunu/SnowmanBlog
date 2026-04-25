@@ -51,6 +51,7 @@ class BlogController extends Controller
                       });
             })
             ->with('category')
+            ->select('id', 'title', 'slug', 'published_at', 'cover_image', 'category_id')
             ->latest('published_at')
             ->limit(5)
             ->get();
