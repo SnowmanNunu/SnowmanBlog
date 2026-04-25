@@ -24,6 +24,12 @@ class BlogController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $sessionKey = 'viewed_post_' . $post->id;
+        if (!session()->has($sessionKey)) {
+            $post->increment('views');
+            session()->put($sessionKey, true);
+        }
+
         return view('blog.show', compact('post'));
     }
 
