@@ -24,7 +24,8 @@ class CommentResource extends Resource
             ->schema([
                 Forms\Components\Select::make('post_id')->relationship('post', 'title')->required()->label('文章'),
                 Forms\Components\TextInput::make('nickname')->required()->label('昵称'),
-                Forms\Components\TextInput::make('email')->email()->required()->label('邮箱'),
+                Forms\Components\TextInput::make('email')->email()->label('邮箱'),
+                Forms\Components\TextInput::make('website')->url()->label('网站'),
                 Forms\Components\Textarea::make('content')->required()->label('内容'),
                 Forms\Components\Toggle::make('is_approved')->label('审核通过'),
             ]);
@@ -44,13 +45,13 @@ class CommentResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_approved')->label('审核状态'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->label('编辑'),
+                Tables\Actions\DeleteAction::make()->label('删除'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()->label('删除'),
+                ])->label('批量操作'),
             ]);
     }
 
