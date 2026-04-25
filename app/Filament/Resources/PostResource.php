@@ -41,9 +41,12 @@ class PostResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->fileAttachmentsDisk('public')
-                    ->fileAttachmentsDirectory('attachments'),
+                    ->fileAttachmentsDirectory('attachments')
+                    ->hint('图片建议不超过 2MB'),
                 Forms\Components\FileUpload::make('cover_image')
-                    ->image(),
+                    ->image()
+                    ->maxSize(2048)
+                    ->imageResizeTargetWidth(1200),
                 Forms\Components\Toggle::make('is_published')
                     ->required(),
                 Forms\Components\DateTimePicker::make('published_at'),
