@@ -10,10 +10,15 @@ class ListCategories extends ListRecords
 {
     protected static string $resource = CategoryResource::class;
 
+    public function getHeading(): string
+    {
+        return '分类列表';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('新建分类'),
         ];
     }
 }

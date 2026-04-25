@@ -10,10 +10,15 @@ class EditCategory extends EditRecord
 {
     protected static string $resource = CategoryResource::class;
 
+    public function getTitle(): string
+    {
+        return '编辑分类';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label('删除'),
         ];
     }
 }

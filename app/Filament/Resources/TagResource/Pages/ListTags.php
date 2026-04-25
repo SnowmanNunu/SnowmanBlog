@@ -10,10 +10,15 @@ class ListTags extends ListRecords
 {
     protected static string $resource = TagResource::class;
 
+    public function getHeading(): string
+    {
+        return '标签列表';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('新建标签'),
         ];
     }
 }

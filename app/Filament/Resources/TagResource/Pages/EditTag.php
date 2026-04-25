@@ -10,10 +10,15 @@ class EditTag extends EditRecord
 {
     protected static string $resource = TagResource::class;
 
+    public function getTitle(): string
+    {
+        return '编辑标签';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label('删除'),
         ];
     }
 }

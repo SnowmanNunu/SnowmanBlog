@@ -10,10 +10,15 @@ class EditPost extends EditRecord
 {
     protected static string $resource = PostResource::class;
 
+    public function getTitle(): string
+    {
+        return '编辑文章';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label('删除'),
         ];
     }
 }

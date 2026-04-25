@@ -10,10 +10,15 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    public function getHeading(): string
+    {
+        return '文章列表';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('新建文章'),
         ];
     }
 }

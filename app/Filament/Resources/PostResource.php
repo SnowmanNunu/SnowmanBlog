@@ -9,14 +9,14 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = '文章管理';
+    protected static ?string $modelLabel = '文章';
+    protected static ?string $pluralModelLabel = '文章';
 
     public static function form(Form $form): Form
     {
@@ -24,16 +24,20 @@ class PostResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
-                    ->required(),
+                    ->required()
+                    ->label('分类'),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
-                    ->required(),
+                    ->required()
+                    ->label('作者'),
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('标题'),
                 Forms\Components\TextInput::make('slug')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('别名'),
                 Forms\Components\Section::make('SEO 设置')
                     ->schema([
                         Forms\Components\TextInput::make('meta_title')
@@ -53,14 +57,17 @@ class PostResource extends Resource
                     ->collapsed()
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('excerpt')
+                    ->label('摘要')
                     ->columnSpanFull(),
                 Forms\Components\RichEditor::make('content')
                     ->required()
+                    ->label('内容')
                     ->columnSpanFull()
                     ->fileAttachmentsDisk('public')
                     ->fileAttachmentsDirectory('attachments')
                     ->hint('图片建议不超过 10MB'),
                 Forms\Components\FileUpload::make('cover_image')
+                    ->label('封面图')
                     ->image()
                     ->maxSize(10240)
                     ->imageResizeTargetWidth(1200),
@@ -79,26 +86,35 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label('分类')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('作者')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('标题')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('别名')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('cover_image'),
+                Tables\Columns\ImageColumn::make('cover_image')
+                    ->label('封面图'),
                 Tables\Columns\IconColumn::make('is_published')
+                    ->label('已发布')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
+                    ->label('发布时间')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -107,12 +123,12 @@ class PostResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('编辑'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()->label('删除'),
+                ])->label('批量操作'),
             ]);
     }
 
