@@ -130,14 +130,38 @@ hljs.highlightAll();
 
     headings.forEach(function(h) { observer.observe(h); });
 
-    // 代码块复制按钮
+    // 代码块复制按钮（兼容非 HTTPS）
+    function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function(resolve, reject) {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                var ok = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                ok ? resolve() : reject(new Error('execCommand failed'));
+            } catch (e) {
+                document.body.removeChild(textarea);
+                reject(e);
+            }
+        });
+    }
+
     document.querySelectorAll('.article-content pre').forEach(function(pre) {
-        const button = document.createElement('button');
+        var codeEl = pre.querySelector('code');
+        if (!codeEl) return;
+        var button = document.createElement('button');
         button.className = 'copy-code-btn';
         button.textContent = '复制';
         button.addEventListener('click', function() {
-            const code = pre.querySelector('code').innerText;
-            navigator.clipboard.writeText(code).then(function() {
+            copyText(codeEl.innerText).then(function() {
                 button.textContent = '已复制';
                 setTimeout(function() { button.textContent = '复制'; }, 2000);
             }).catch(function() {
