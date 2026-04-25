@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewCommentMail;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CommentController extends Controller
 {
@@ -18,12 +22,21 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
-        Comment::create([
+        $comment = Comment::create([
             ...$validated,
             'post_id' => $post->id,
             'ip' => $request->ip(),
             'is_approved' => false,
         ]);
+
+        try {
+            $adminEmail = Setting::get('admin_email') ?? User::first()?->email;
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new NewCommentMail($comment));
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Comment notification email failed: ' . $e->getMessage());
+        }
 
         return back()->with('success', '评论提交成功，等待审核！');
     }
