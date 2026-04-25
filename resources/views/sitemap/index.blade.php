@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+{{ '<' . '?xml version="1.0" encoding="UTF-8"?' . '>' }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>{{ url('/') }}</loc>
@@ -12,26 +12,26 @@
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
     </url>
-    @foreach($categories as $category)
+    @foreach( as )
     <url>
-        <loc>{{ route('blog.category', $category->slug) }}</loc>
-        <lastmod>{{ $category->updated_at->toDateString() }}</lastmod>
+        <loc>{{ route('blog.category', ->slug) }}</loc>
+        <lastmod>{{ ->updated_at->toDateString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     @endforeach
-    @foreach($tags as $tag)
+    @foreach( as )
     <url>
-        <loc>{{ route('blog.tag', $tag->slug) }}</loc>
-        <lastmod>{{ $tag->updated_at->toDateString() }}</lastmod>
+        <loc>{{ route('blog.tag', ->slug) }}</loc>
+        <lastmod>{{ ->updated_at->toDateString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
     </url>
     @endforeach
-    @foreach($posts as $post)
+    @foreach( as )
     <url>
-        <loc>{{ route('blog.show', $post->slug) }}</loc>
-        <lastmod>{{ $post->updated_at->toDateString() }}</lastmod>
+        <loc>{{ route('blog.show', ->slug) }}</loc>
+        <lastmod>{{ ->updated_at->toDateString() }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
