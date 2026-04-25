@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', $siteTitle) - {{ $siteDescription }}</title>
-    <meta name="description" content="{{ $siteDescription }}">
+    <title>@yield('title', $siteTitle . ' - ' . $siteDescription)</title>
+    <meta name="description" content="@yield('meta_description', $siteDescription)">
+    <meta name="keywords" content="@yield('meta_keywords', '')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="@yield('og_title', $siteTitle . ' - ' . $siteDescription)">
+    <meta property="og:description" content="@yield('og_description', $siteDescription)">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:site_name" content="{{ $siteTitle }}">
+    @hasSection('og_image')
+    <meta property="og:image" content="@yield('og_image')">
+    @endif
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Structured Data -->
+    @hasSection('jsonld')
+    <script type="application/ld+json">
+    @yield('jsonld')
+    </script>
+    @endif
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>

@@ -35,6 +35,24 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Section::make('SEO 设置')
+                    ->schema([
+                        Forms\Components\TextInput::make('meta_title')
+                            ->label('Meta 标题')
+                            ->maxLength(255)
+                            ->placeholder('留空则使用文章标题'),
+                        Forms\Components\Textarea::make('meta_description')
+                            ->label('Meta 描述')
+                            ->rows(2)
+                            ->maxLength(500)
+                            ->placeholder('留空则使用文章摘要'),
+                        Forms\Components\TextInput::make('meta_keywords')
+                            ->label('Meta 关键词')
+                            ->maxLength(255)
+                            ->placeholder('关键词用英文逗号分隔'),
+                    ])
+                    ->collapsed()
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('excerpt')
                     ->columnSpanFull(),
                 Forms\Components\RichEditor::make('content')
