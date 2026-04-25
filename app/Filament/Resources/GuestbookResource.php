@@ -22,12 +22,12 @@ class GuestbookResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nickname')->required()->label('昵称'),
-                Forms\Components\TextInput::make('email')->email()->required()->label('邮箱'),
-                Forms\Components\TextInput::make('website')->url()->label('网站'),
-                Forms\Components\Textarea::make('content')->required()->label('内容'),
-                Forms\Components\Textarea::make('reply')->label('博主回复'),
-                Forms\Components\Toggle::make('is_approved')->label('审核通过'),
+                FormsComponentsTextInput::make('nickname')->required()->label('昵称'),
+                FormsComponentsTextInput::make('email')->email()->label('邮箱'),
+                FormsComponentsTextInput::make('website')->url()->label('网站'),
+                FormsComponentsTextarea::make('content')->required()->label('内容'),
+                FormsComponentsTextarea::make('reply')->label('博主回复'),
+                FormsComponentsToggle::make('is_approved')->label('审核通过'),
             ]);
     }
 
@@ -35,22 +35,22 @@ class GuestbookResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nickname')->searchable()->label('昵称'),
-                Tables\Columns\TextColumn::make('content')->limit(50)->label('内容'),
-                Tables\Columns\IconColumn::make('is_approved')->boolean()->label('已审核'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('提交时间'),
+                TablesColumnsTextColumn::make('nickname')->searchable()->label('昵称'),
+                TablesColumnsTextColumn::make('content')->limit(50)->label('内容'),
+                TablesColumnsIconColumn::make('is_approved')->boolean()->label('已审核'),
+                TablesColumnsTextColumn::make('created_at')->dateTime()->label('提交时间'),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_approved')->label('审核状态'),
+                TablesFiltersTernaryFilter::make('is_approved')->label('审核状态'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                TablesActionsEditAction::make()->label('编辑'),
+                TablesActionsDeleteAction::make()->label('删除'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                TablesActionsBulkActionGroup::make([
+                    TablesActionsDeleteBulkAction::make()->label('删除'),
+                ])->label('批量操作'),
             ]);
     }
 
