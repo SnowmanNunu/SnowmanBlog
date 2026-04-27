@@ -55,6 +55,15 @@ if ($post->cover_image) {
 .article-content th { background: #f9fafb; font-weight: 600; }
 .copy-code-btn { position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #e2e8f0; background: rgba(255,255,255,0.1); border-radius: 0.375rem; cursor: pointer; transition: all 0.2s; border: none; }
 .copy-code-btn:hover { background: rgba(255,255,255,0.2); }
+
+.dark .article-content h2 { color: #f3f4f6; }
+.dark .article-content h3 { color: #e5e7eb; }
+.dark .article-content blockquote { border-left-color: #374151; color: #9ca3af; }
+.dark .article-content code { background: #1f2937; color: #f87171; }
+.dark .article-content hr { border-top-color: #374151; }
+.dark .article-content th, .dark .article-content td { border-color: #374151; }
+.dark .article-content th { background: #1f2937; }
+.dark .article-content a { color: #3b82f6; }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -62,20 +71,20 @@ if ($post->cover_image) {
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- 文章主体 -->
     <div class="lg:col-span-3">
-        <article class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
             @if($post->cover_image)
                 <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
             @endif
 
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $post->title }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{ $post->title }}</h1>
 
-            <div class="flex items-center text-sm text-gray-500 mb-8 space-x-4">
-                <span class="font-medium text-gray-700">{{ $post->user->name }}</span>
-                <span class="text-gray-300">·</span>
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-8 space-x-4">
+                <span class="font-medium text-gray-700 dark:text-gray-300">{{ $post->user->name }}</span>
+                <span class="text-gray-300 dark:text-gray-600">·</span>
                 <span>{{ $post->published_at->format('Y-m-d H:i') }}</span>
-                <span class="text-gray-300">·</span>
-                <a href="{{ route('blog.category', $post->category->slug) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ $post->category->name }}</a>
-                <span class="text-gray-300">·</span>
+                <span class="text-gray-300 dark:text-gray-600">·</span>
+                <a href="{{ route('blog.category', $post->category->slug) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">{{ $post->category->name }}</a>
+                <span class="text-gray-300 dark:text-gray-600">·</span>
                 <span class="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -85,13 +94,13 @@ if ($post->cover_image) {
                 </span>
             </div>
 
-            <div class="article-content max-w-none text-gray-700 leading-relaxed">
+            <div class="article-content max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
                 {!! Str::markdown($post->content) !!}
             </div>
 
             <div class="mt-10 flex flex-wrap gap-2">
                 @foreach($post->tags as $t)
-                    <a href="{{ route('blog.tag', $t->slug) }}" class="px-3 py-1 bg-blue-50 text-blue-600 text-sm rounded-full hover:bg-blue-100 transition-colors">{{ $t->name }}</a>
+                    <a href="{{ route('blog.tag', $t->slug) }}" class="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-sm rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">{{ $t->name }}</a>
                 @endforeach
             </div>
         </article>
@@ -99,38 +108,38 @@ if ($post->cover_image) {
         <!-- 上一篇 / 下一篇 -->
         <div class="mt-6 grid grid-cols-2 gap-3 md:gap-4">
             @if($prevPost)
-                <a href="{{ route('blog.show', $prevPost->slug) }}" class="group block p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
-                    <span class="text-[10px] md:text-xs text-gray-500 group-hover:text-blue-600 uppercase tracking-wide flex items-center gap-1">
+                <a href="{{ route('blog.show', $prevPost->slug) }}" class="group block p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-blue-200 hover:shadow-md transition-all">
+                    <span class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 uppercase tracking-wide flex items-center gap-1">
                         <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         上一篇
                     </span>
-                    <p class="mt-1 text-xs md:text-sm font-medium text-gray-900 truncate md:line-clamp-2 group-hover:text-blue-700">{{ $prevPost->title }}</p>
+                    <p class="mt-1 text-xs md:text-sm font-medium text-gray-900 dark:text-gray-100 truncate md:line-clamp-2 group-hover:text-blue-700 dark:group-hover:text-blue-300">{{ $prevPost->title }}</p>
                 </a>
             @else
-                <div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100 opacity-50">
-                    <span class="text-xs text-gray-500 uppercase tracking-wide flex items-center gap-1">
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 opacity-50">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide flex items-center gap-1">
                         <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         上一篇
                     </span>
-                    <p class="mt-1 text-sm text-gray-400">没有了</p>
+                    <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">没有了</p>
                 </div>
             @endif
 
             @if($nextPost)
-                <a href="{{ route('blog.show', $nextPost->slug) }}" class="group block p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all text-right">
-                    <span class="text-xs text-gray-500 group-hover:text-blue-600 uppercase tracking-wide flex items-center justify-end gap-1">
+                <a href="{{ route('blog.show', $nextPost->slug) }}" class="group block p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-blue-200 hover:shadow-md transition-all text-right">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 uppercase tracking-wide flex items-center justify-end gap-1">
                         下一篇
                         <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
-                    <p class="mt-1 text-xs md:text-sm font-medium text-gray-900 truncate md:line-clamp-2 group-hover:text-blue-700">{{ $nextPost->title }}</p>
+                    <p class="mt-1 text-xs md:text-sm font-medium text-gray-900 dark:text-gray-100 truncate md:line-clamp-2 group-hover:text-blue-700 dark:group-hover:text-blue-300">{{ $nextPost->title }}</p>
                 </a>
             @else
-                <div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100 opacity-50 text-right">
-                    <span class="text-xs text-gray-500 uppercase tracking-wide flex items-center justify-end gap-1">
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 opacity-50 text-right">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide flex items-center justify-end gap-1">
                         下一篇
                         <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
-                    <p class="mt-1 text-sm text-gray-400">没有了</p>
+                    <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">没有了</p>
                 </div>
             @endif
         </div>
@@ -138,24 +147,24 @@ if ($post->cover_image) {
         
         @if($relatedPosts->count() > 0)
         <div class="mt-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 相关文章推荐
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($relatedPosts as $related)
-                <a href="{{ route('blog.show', $related->slug) }}" class="group block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all">
+                <a href="{{ route('blog.show', $related->slug) }}" class="group block bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all">
                     @if($related->cover_image)
                     <div class="h-32 overflow-hidden">
                         <img src="{{ asset('storage/' . $related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     </div>
                     @endif
                     <div class="p-4">
-                        <div class="text-xs text-blue-600 font-medium mb-1">{{ $related->category->name }}</div>
-                        <h4 class="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-700">{{ $related->title }}</h4>
-                        <div class="mt-2 text-xs text-gray-400">{{ $related->published_at->format('Y-m-d') }}</div>
+                        <div class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">{{ $related->category->name }}</div>
+                        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-blue-700 dark:group-hover:text-blue-300">{{ $related->title }}</h4>
+                        <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">{{ $related->published_at->format('Y-m-d') }}</div>
                     </div>
                 </a>
                 @endforeach
@@ -168,9 +177,9 @@ if ($post->cover_image) {
 
     <!-- 右侧目录 -->
     <div class="hidden lg:block lg:col-span-1">
-        <div id="toc-container" class="sticky top-24 bg-white rounded-xl shadow-sm border border-gray-100 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
-            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">目录</h3>
-            <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 pl-3"></ul>
+        <div id="toc-container" class="sticky top-24 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">目录</h3>
+            <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 dark:border-gray-700 pl-3"></ul>
         </div>
     </div>
 </div>
