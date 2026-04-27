@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Setting;
 use App\Models\Link;
+use App\Models\Post;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             $view->with('siteIcp', Cache::tags(['settings'])->remember('setting:site_icp', 86400, fn () => Setting::get('site_icp', '')));
             $view->with('siteAuthor', Cache::tags(['settings'])->remember('setting:site_author', 86400, fn () => Setting::get('site_author', '')));
             $view->with('links', Cache::tags(['links'])->remember('links:visible', 3600, fn () => Link::where('is_visible', true)->orderBy('sort_order')->get()));
+            $view->with('popularPosts', Cache::tags(['posts'])->remember('posts:popular', 600, fn () => Post::published()->with('category')->orderByDesc('views')->limit(5)->get()));
         });
     }
 }

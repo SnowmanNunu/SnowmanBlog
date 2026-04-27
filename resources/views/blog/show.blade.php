@@ -75,7 +75,7 @@ $breadcrumbLd = [
 .article-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875rem; background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #ef4444; }
 .article-content hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
 .article-content a { color: #2563eb; text-decoration: underline; }
-.article-content img { border-radius: 0.5rem; margin: 1rem 0; max-width: 100%; }
+.article-content img { border-radius: 0.5rem; margin: 1rem 0; max-width: 100%; cursor: zoom-in; }
 .article-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
 .article-content th, .article-content td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
 .article-content th { background: #f9fafb; font-weight: 600; }
@@ -207,10 +207,32 @@ $breadcrumbLd = [
             <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">{{ __('Contents') }}</h3>
             <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 dark:border-gray-700 pl-3"></ul>
         </div>
+
+        @if($popularPosts->count() > 0)
+        <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
+            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">{{ __('Popular articles') }}</h3>
+            <ul class="space-y-3">
+                @foreach($popularPosts as $pp)
+                <li>
+                    <a href="{{ route('blog.show', $pp->slug) }}" class="group flex items-start gap-3">
+                        @if($pp->cover_image)
+                        <img src="{{ asset('storage/' . $pp->cover_image) }}" alt="{{ $pp->title }}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" loading="lazy">
+                        @endif
+                        <div class="min-w-0">
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $pp->title }}</h4>
+                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1 block">{{ $pp->views ?? 0 }} {{ __('Views') }}</span>
+                        </div>
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
 <script>
 hljs.highlightAll();
 
@@ -309,6 +331,14 @@ hljs.highlightAll();
         });
         pre.appendChild(button);
     });
+
+    // medium-zoom 图片灯箱
+    if (typeof mediumZoom !== 'undefined') {
+        mediumZoom('.article-content img', {
+            background: 'rgba(0,0,0,0.8)',
+            margin: 24,
+        });
+    }
 })();
 </script>
 @endsection

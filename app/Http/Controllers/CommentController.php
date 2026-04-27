@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommentReplyMail;
 use App\Mail\NewCommentMail;
 use App\Models\Comment;
 use App\Models\Post;
@@ -40,6 +41,18 @@ class CommentController extends Controller
             'ip' => $request->ip(),
             'is_approved' => $isAdmin,
         ]);
+
+        // 通知被回复的评论者
+        if (!empty($validated['parent_id'])) {
+            $parentComment = Comment::find($validated['parent_id']);
+            if ($parentComment && $parentComment->email && $parentComment->email !== ($validated['email'] ?? null)) {
+                try {
+                    Mail::to($parentComment->email)->send(new CommentReplyMail($comment, $parentComment));
+                } catch (\Throwable $e) {
+                    \Log::error('Comment reply notification email failed: ' . $e->getMessage());
+                }
+            }
+        }
 
         if (!$isAdmin) {
             try {
