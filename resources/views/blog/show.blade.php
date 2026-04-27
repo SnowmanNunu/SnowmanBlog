@@ -99,7 +99,7 @@ $breadcrumbLd = [
     <div class="lg:col-span-3">
         <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
             @if($post->cover_image)
-                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
+                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6" loading="lazy">
             @endif
 
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{ $post->title }}</h1>
@@ -170,7 +170,7 @@ $breadcrumbLd = [
             @endif
         </div>
 
-        
+
         @if($relatedPosts->count() > 0)
         <div class="mt-8">
             <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
@@ -184,7 +184,7 @@ $breadcrumbLd = [
                 <a href="{{ route('blog.show', $related->slug) }}" class="group block bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all">
                     @if($related->cover_image)
                     <div class="h-32 overflow-hidden">
-                        <img src="{{ asset('storage/' . $related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <img src="{{ asset('storage/' . $related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
                     </div>
                     @endif
                     <div class="p-4">
@@ -215,6 +215,11 @@ $breadcrumbLd = [
 hljs.highlightAll();
 
 (function() {
+    // 文章内容图片懒加载
+    document.querySelectorAll('.article-content img').forEach(function(img) {
+        img.loading = 'lazy';
+    });
+
     const content = document.querySelector('.article-content');
     const headings = content.querySelectorAll('h2, h3');
     const tocContainer = document.getElementById('toc-container');

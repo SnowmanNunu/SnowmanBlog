@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Link extends Model
 {
@@ -11,4 +12,15 @@ class Link extends Model
     protected $casts = [
         'is_visible' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            Cache::tags(['links'])->flush();
+        });
+
+        static::deleted(function () {
+            Cache::tags(['links'])->flush();
+        });
+    }
 }

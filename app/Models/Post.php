@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Post extends Model
 {
@@ -21,6 +22,17 @@ class Post extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function (Post $post) {
+            Cache::tags(['posts'])->flush();
+        });
+
+        static::deleted(function (Post $post) {
+            Cache::tags(['posts'])->flush();
+        });
+    }
 
     public function category(): BelongsTo
     {

@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        $posts = Post::published()
-            ->with(['category', 'user'])
-            ->latest('published_at')
-            ->paginate(10);
+        $page = request('page', 1);
+        $posts = Cache::tags(['posts'])->remember("posts:index:page:{$page}", 300, function () {
+            return Post::published()
+                ->with(['category', 'user'])
+                ->latest('published_at')
+                ->paginate(10);
+        });
 
         return view('blog.index', compact('posts'));
     }
@@ -48,31 +52,39 @@ class BlogController extends Controller
             session()->put($sessionKey, true);
         }
 
-        $prevPost = Post::published()
-            ->where('published_at', '<', $post->published_at)
-            ->orderBy('published_at', 'desc')
-            ->select('id', 'title', 'slug')
-            ->first();
+        $cacheKey = "post:{$post->id}";
 
-        $nextPost = Post::published()
-            ->where('published_at', '>', $post->published_at)
-            ->orderBy('published_at', 'asc')
-            ->select('id', 'title', 'slug')
-            ->first();
+        $prevPost = Cache::tags(['posts'])->remember("{$cacheKey}:prev", 600, function () use ($post) {
+            return Post::published()
+                ->where('published_at', '<', $post->published_at)
+                ->orderBy('published_at', 'desc')
+                ->select('id', 'title', 'slug')
+                ->first();
+        });
 
-        $relatedPosts = Post::published()
-            ->where('id', '!=', $post->id)
-            ->where(function ($query) use ($post) {
-                $query->where('category_id', $post->category_id)
-                      ->orWhereHas('tags', function ($q) use ($post) {
-                          $q->whereIn('tags.id', $post->tags->pluck('id'));
-                      });
-            })
-            ->with('category')
-            ->select('id', 'title', 'slug', 'published_at', 'cover_image', 'category_id')
-            ->latest('published_at')
-            ->limit(5)
-            ->get();
+        $nextPost = Cache::tags(['posts'])->remember("{$cacheKey}:next", 600, function () use ($post) {
+            return Post::published()
+                ->where('published_at', '>', $post->published_at)
+                ->orderBy('published_at', 'asc')
+                ->select('id', 'title', 'slug')
+                ->first();
+        });
+
+        $relatedPosts = Cache::tags(['posts'])->remember("{$cacheKey}:related", 600, function () use ($post) {
+            return Post::published()
+                ->where('id', '!=', $post->id)
+                ->where(function ($query) use ($post) {
+                    $query->where('category_id', $post->category_id)
+                          ->orWhereHas('tags', function ($q) use ($post) {
+                              $q->whereIn('tags.id', $post->tags->pluck('id'));
+                          });
+                })
+                ->with('category')
+                ->select('id', 'title', 'slug', 'published_at', 'cover_image', 'category_id')
+                ->latest('published_at')
+                ->limit(5)
+                ->get();
+        });
 
         return view('blog.show', compact('post', 'prevPost', 'nextPost', 'relatedPosts'));
     }
@@ -80,11 +92,14 @@ class BlogController extends Controller
     public function category($slug)
     {
         $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
-        $posts = Post::published()
-            ->where('category_id', $category->id)
-            ->with(['category', 'user'])
-            ->latest('published_at')
-            ->paginate(10);
+        $page = request('page', 1);
+        $posts = Cache::tags(['posts'])->remember("posts:category:{$slug}:page:{$page}", 300, function () use ($category) {
+            return Post::published()
+                ->where('category_id', $category->id)
+                ->with(['category', 'user'])
+                ->latest('published_at')
+                ->paginate(10);
+        });
 
         return view('blog.index', compact('posts', 'category'));
     }
@@ -92,11 +107,14 @@ class BlogController extends Controller
     public function tag($slug)
     {
         $tag = \App\Models\Tag::where('slug', $slug)->firstOrFail();
-        $posts = $tag->posts()
-            ->published()
-            ->with(['category', 'user'])
-            ->latest('published_at')
-            ->paginate(10);
+        $page = request('page', 1);
+        $posts = Cache::tags(['posts'])->remember("posts:tag:{$slug}:page:{$page}", 300, function () use ($tag) {
+            return $tag->posts()
+                ->published()
+                ->with(['category', 'user'])
+                ->latest('published_at')
+                ->paginate(10);
+        });
 
         return view('blog.index', compact('posts', 'tag'));
     }

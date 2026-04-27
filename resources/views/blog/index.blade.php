@@ -28,7 +28,7 @@
     @forelse($posts as $post)
         <article class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             @if($post->cover_image)
-                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy">
             @endif
             <h2 class="text-xl font-bold mb-2">
                 <a href="{{ route('blog.show', $post->slug) }}" class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">{{ $post->title }}</a>
