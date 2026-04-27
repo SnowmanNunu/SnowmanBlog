@@ -22,6 +22,16 @@ class GuestbookController extends Controller
             'content' => 'required|string|max:2000',
         ]);
 
+        // 防刷：同一 IP 60 秒内不能提交相同内容
+        $recentDuplicate = Guestbook::where('ip', $request->ip())
+            ->where('content', $validated['content'])
+            ->where('created_at', '>', now()->subSeconds(60))
+            ->exists();
+
+        if ($recentDuplicate) {
+            return back()->with('error', '留言提交过于频繁，请稍后再试');
+        }
+
         $isAdmin = auth()->check();
 
         Guestbook::create([

@@ -16,6 +16,10 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 Route::get('/rss.xml', [RssController::class, 'index'])->name('rss');
 
 Route::get('/guestbook', [GuestbookController::class, 'index'])->name('guestbook.index');
-Route::post('/guestbook', [GuestbookController::class, 'store'])->name('guestbook.store');
+Route::post('/guestbook', [GuestbookController::class, 'store'])
+    ->name('guestbook.store')
+    ->middleware('throttle:3,1');
 
-Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
+    ->name('comments.store')
+    ->middleware('throttle:3,1');

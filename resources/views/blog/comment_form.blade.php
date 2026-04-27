@@ -7,7 +7,13 @@
         </div>
     @endif
 
-    <form action="{{ route('comments.store', $post) }}" method="POST" class="space-y-4">
+    @if(session('error'))
+        <div class="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <form action="{{ route('comments.store', $post) }}" method="POST" class="space-y-4" onsubmit="document.getElementById('comment-submit').disabled=true;this.submit();">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -27,6 +33,6 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">内容 *</label>
             <textarea name="content" rows="4" required class="w-full rounded border-gray-300 dark:border-gray-600 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">发表评论</button>
+        <button id="comment-submit" type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">发表评论</button>
     </form>
 </div>
