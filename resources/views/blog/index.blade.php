@@ -4,13 +4,13 @@
 
 @section('jsonld')
 {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@@context": "https://schema.org",
+    "@@type": "WebSite",
     "name": "{{ $siteTitle }}",
     "description": "{{ $siteDescription }}",
     "url": "{{ url('/') }}",
     "potentialAction": {
-        "@type": "SearchAction",
+        "@@type": "SearchAction",
         "target": "{{ url('/search') }}?q={search_term_string}",
         "query-input": "required name=search_term_string"
     }
