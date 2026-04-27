@@ -30,7 +30,10 @@
             @if($post->cover_image)
                 <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy">
             @endif
-            <h2 class="text-xl font-bold mb-2">
+            <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                @if($post->is_pinned)
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">{{ __('Pinned') }}</span>
+                @endif
                 <a href="{{ route('blog.show', $post->slug) }}" class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">{{ $post->title }}</a>
             </h2>
             <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 space-x-4">

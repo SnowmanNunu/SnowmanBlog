@@ -14,6 +14,7 @@ class BlogController extends Controller
         $posts = Cache::tags(['posts'])->remember("posts:index:page:{$page}", 300, function () {
             return Post::published()
                 ->with(['category', 'user'])
+                ->orderByDesc('is_pinned')
                 ->latest('published_at')
                 ->paginate(10);
         });
@@ -97,6 +98,7 @@ class BlogController extends Controller
             return Post::published()
                 ->where('category_id', $category->id)
                 ->with(['category', 'user'])
+                ->orderByDesc('is_pinned')
                 ->latest('published_at')
                 ->paginate(10);
         });
@@ -112,6 +114,7 @@ class BlogController extends Controller
             return $tag->posts()
                 ->published()
                 ->with(['category', 'user'])
+                ->orderByDesc('is_pinned')
                 ->latest('published_at')
                 ->paginate(10);
         });
@@ -128,6 +131,7 @@ class BlogController extends Controller
 
         $query = Post::published()
             ->with('category')
+            ->orderByDesc('is_pinned')
             ->latest('published_at');
 
         // Try FULLTEXT search first

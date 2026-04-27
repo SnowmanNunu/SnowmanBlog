@@ -15,11 +15,12 @@ class Post extends Model
 
     protected $fillable = [
         'category_id', 'user_id', 'title', 'slug', 'excerpt',
-        'content', 'cover_image', 'is_published', 'published_at'
+        'content', 'cover_image', 'is_published', 'is_pinned', 'published_at'
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
+        'is_pinned' => 'boolean',
         'published_at' => 'datetime',
     ];
 

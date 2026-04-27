@@ -71,6 +71,9 @@ class PostResource extends Resource
                     ->image()
                     ->maxSize(10240)
                     ->imageResizeTargetWidth(1200),
+                Forms\Components\Toggle::make('is_pinned')
+                    ->label('置顶')
+                    ->default(false),
                 Forms\Components\Toggle::make('is_published')
                     ->label('已发布')
                     ->required(),
@@ -101,6 +104,10 @@ class PostResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('cover_image')
                     ->label('封面图'),
+                Tables\Columns\IconColumn::make('is_pinned')
+                    ->label('置顶')
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_published')
                     ->label('已发布')
                     ->boolean(),
