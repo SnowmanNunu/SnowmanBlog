@@ -39,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 \App\Filament\Widgets\StatsOverview::class,
+                \App\Filament\Widgets\BlogViewsChart::class,
                 \App\Filament\Widgets\PostChart::class,
                 \App\Filament\Widgets\LatestPosts::class,
             ])

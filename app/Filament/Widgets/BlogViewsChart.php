@@ -1,9 +1,9 @@
 <?php
 
-namespace AppFilamentWidgets;
+namespace App\Filament\Widgets;
 
-use IlluminateSupportFacadesDB;
-use FilamentWidgetsChartWidget;
+use Illuminate\Support\Facades\DB;
+use Filament\Widgets\ChartWidget;
 
 class BlogViewsChart extends ChartWidget
 {
