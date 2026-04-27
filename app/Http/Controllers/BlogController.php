@@ -108,28 +108,40 @@ class BlogController extends Controller
             return response()->json([]);
         }
 
-        $posts = Post::published()
-            ->where(function ($query) use ($keyword) {
-                $query->where('title', 'like', "%{$keyword}%")
-                      ->orWhere('content', 'like', "%{$keyword}%")
-                      ->orWhere('excerpt', 'like', "%{$keyword}%")
-                      ->orWhere('slug', 'like', "%{$keyword}%");
-            })
+        $query = Post::published()
             ->with('category')
-            ->latest('published_at')
+            ->latest('published_at');
+
+        // Try FULLTEXT search first
+        $posts = (clone $query)
+            ->whereRaw('MATCH(title, content, excerpt) AGAINST(? IN NATURAL LANGUAGE MODE)', [$keyword])
             ->limit(10)
-            ->get()
-            ->map(function ($post) use ($keyword) {
-                return [
-                    'slug' => $post->slug,
-                    'title' => $this->highlight($post->title, $keyword),
-                    'excerpt' => $this->highlight($this->getExcerpt($post, $keyword), $keyword),
-                    'cover_image' => $post->cover_image ? asset('storage/' . $post->cover_image) : null,
-                    'published_at' => $post->published_at->format('Y-m-d'),
-                    'category_name' => $post->category->name,
-                    'category_slug' => $post->category->slug,
-                ];
-            });
+            ->get();
+
+        // Fallback to LIKE if no FULLTEXT results
+        if ($posts->isEmpty()) {
+            $posts = $query
+                ->where(function ($q) use ($keyword) {
+                    $q->where('title', 'like', "%{$keyword}%")
+                          ->orWhere('content', 'like', "%{$keyword}%")
+                          ->orWhere('excerpt', 'like', "%{$keyword}%")
+                          ->orWhere('slug', 'like', "%{$keyword}%");
+                })
+                ->limit(10)
+                ->get();
+        }
+
+        $posts = $posts->map(function ($post) use ($keyword) {
+            return [
+                'slug' => $post->slug,
+                'title' => $this->highlight($post->title, $keyword),
+                'excerpt' => $this->highlight($this->getExcerpt($post, $keyword), $keyword),
+                'cover_image' => $post->cover_image ? asset('storage/' . $post->cover_image) : null,
+                'published_at' => $post->published_at->format('Y-m-d'),
+                'category_name' => $post->category->name,
+                'category_slug' => $post->category->slug,
+            ];
+        });
 
         return response()->json($posts);
     }
