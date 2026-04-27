@@ -64,10 +64,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <span>搜索文章...</span>
+                        <span>{{ __('Search articles...') }}</span>
                         <kbd class="hidden lg:inline-block px-1.5 py-0.5 text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded text-gray-400 dark:text-gray-500">Ctrl K</kbd>
                     </button>
-                    <button id="theme-toggle" class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="切换主题">
+                    <div class="flex items-center space-x-1 px-2">
+                    <a href="{{ url()->current() }}?lang=zh_CN" class="text-xs {{ app()->getLocale() === 'zh_CN' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400' }}">{{ __('Chinese') }}</a>
+                    <span class="text-gray-300 dark:text-gray-600">|</span>
+                    <a href="{{ url()->current() }}?lang=en" class="text-xs {{ app()->getLocale() === 'en' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400' }}">{{ __('English') }}</a>
+                </div>
+                    <button id="theme-toggle" class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="{{ __('Toggle theme') }}">
                         <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                         <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
@@ -126,14 +131,14 @@
         x-transition:leave-end="opacity-0 -translate-y-2"
         class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 space-y-1 shadow-lg"
     >
-        <a href="{{ route('blog.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">首页</a>
-        <a href="{{ route('guestbook.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">留言板</a>
-        <a href="/admin" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">后台管理</a>
+        <a href="{{ route('blog.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ __('Home') }}</a>
+        <a href="{{ route('guestbook.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ __('Guestbook') }}</a>
+        <a href="/admin" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ __('Admin') }}</a>
         <button @click="mobileMenuOpen = false; searchOpen = true" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium flex items-center space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span>搜索文章</span>
+            <span>{{ __('Search') }}</span>
         </button>
     </div>
 
@@ -279,7 +284,7 @@
                     @endif
                 </div>
                 <div class="text-center md:text-right text-sm text-gray-400 dark:text-gray-500">
-                    <p>&copy; {{ date('Y') }} {{ $siteTitle }}. All rights reserved.</p>
+                    <p>&copy; {{ date('Y') }} {{ $siteTitle }}. {{ __('All rights reserved') }}</p>
                     @if($siteIcp)
                         <p class="mt-1">
                             <a href="https://beian.miit.gov.cn/" target="_blank" class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">{{ $siteIcp }}</a>

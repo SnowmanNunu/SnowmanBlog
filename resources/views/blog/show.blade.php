@@ -41,7 +41,7 @@ $breadcrumbLd = [
         [
             '@type' => 'ListItem',
             'position' => 1,
-            'name' => '首页',
+            'name' => __('Home'),
             'item' => url('/'),
         ],
         [
@@ -131,7 +131,7 @@ $breadcrumbLd = [
             </div>
         </article>
 
-        <!-- 上一篇 / 下一篇 -->
+        <!-- {{ __('Previous') }} / {{ __('Next') }} -->
         <div class="mt-6 grid grid-cols-2 gap-3 md:gap-4">
             @if($prevPost)
                 <a href="{{ route('blog.show', $prevPost->slug) }}" class="group block p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-blue-200 hover:shadow-md transition-all">
@@ -147,7 +147,7 @@ $breadcrumbLd = [
                         <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         上一篇
                     </span>
-                    <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">没有了</p>
+                    <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">{{ __('No more') }}</p>
                 </div>
             @endif
 
@@ -177,7 +177,7 @@ $breadcrumbLd = [
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                相关文章推荐
+                {{ __('Related articles') }}
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($relatedPosts as $related)
@@ -204,7 +204,7 @@ $breadcrumbLd = [
     <!-- 右侧目录 -->
     <div class="hidden lg:block lg:col-span-1">
         <div id="toc-container" class="sticky top-24 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
-            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">目录</h3>
+            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">{{ __('Contents') }}</h3>
             <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 dark:border-gray-700 pl-3"></ul>
         </div>
     </div>
@@ -292,13 +292,13 @@ hljs.highlightAll();
         if (!codeEl) return;
         var button = document.createElement('button');
         button.className = 'copy-code-btn';
-        button.textContent = '复制';
+        button.textContent = '{{ __('Copy') }}';
         button.addEventListener('click', function() {
             copyText(codeEl.innerText).then(function() {
-                button.textContent = '已复制';
+                button.textContent = '{{ __('Copied') }}';
                 setTimeout(function() { button.textContent = '复制'; }, 2000);
             }).catch(function() {
-                button.textContent = '失败';
+                button.textContent = '{{ __('Failed') }}';
                 setTimeout(function() { button.textContent = '复制'; }, 2000);
             });
         });

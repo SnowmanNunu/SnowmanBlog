@@ -1,6 +1,6 @@
 @extends('layouts.blog')
 
-@section('title', isset($category) ? $category->name : (isset($tag) ? $tag->name : '首页'))
+@section('title', isset($category) ? $category->name : (isset($tag) ? $tag->name : __('Home')))
 
 @section('jsonld')
 {
@@ -20,9 +20,9 @@
 @section('content')
 <div class="space-y-8">
     @if(isset($category))
-        <h1 class="text-2xl font-bold dark:text-gray-100">分类：{{ $category->name }}</h1>
+        <h1 class="text-2xl font-bold dark:text-gray-100">{{ __('Category') }}：{{ $category->name }}</h1>
     @elseif(isset($tag))
-        <h1 class="text-2xl font-bold dark:text-gray-100">标签：{{ $tag->name }}</h1>
+        <h1 class="text-2xl font-bold dark:text-gray-100">{{ __('Tag') }}：{{ $tag->name }}</h1>
     @endif
 
     @forelse($posts as $post)
@@ -55,7 +55,7 @@
             </div>
         </article>
     @empty
-        <p class="text-gray-500 dark:text-gray-400">暂无文章</p>
+        <p class="text-gray-500 dark:text-gray-400">{{ __('No articles yet') }}</p>
     @endforelse
 
     {{ $posts->links() }}

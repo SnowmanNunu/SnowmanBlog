@@ -20,7 +20,7 @@
   "All rights reserved": "All rights reserved",
   "Previous": "上一篇",
   "Next": "下一篇",
-  "Related articles": "相关文章",
+  "Related articles": "相关文章推荐",
   "Author": "作者",
   "Published at": "发布于",
   "Views": "浏览",
@@ -38,5 +38,10 @@
   "More": "更多",
   "Language": "语言",
   "Chinese": "中文",
-  "English": "英文"
+  "English": "英文",
+  "Contents": "目录",
+  "Copy": "复制",
+  "Copied": "已复制",
+  "Failed": "失败",
+  "No more": "没有了"
 }
