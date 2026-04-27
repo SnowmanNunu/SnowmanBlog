@@ -17,7 +17,7 @@ class BlogController extends Controller
         return view('blog.index', compact('posts'));
     }
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $post = Post::published()
             ->with(['category', 'user', 'tags'])
@@ -26,7 +26,25 @@ class BlogController extends Controller
 
         $sessionKey = 'viewed_post_' . $post->id;
         if (!session()->has($sessionKey)) {
-            $post->increment('views');
+            $ip = $request->ip();
+            $today = now()->toDateString();
+
+            $alreadyViewed = \DB::table('post_views')
+                ->where('post_id', $post->id)
+                ->where('ip_address', $ip)
+                ->whereDate('viewed_at', $today)
+                ->exists();
+
+            if (!$alreadyViewed) {
+                $post->increment('views');
+                \DB::table('post_views')->insert([
+                    'post_id' => $post->id,
+                    'ip_address' => $ip,
+                    'user_agent' => substr($request->userAgent() ?? '', 0, 255),
+                    'viewed_at' => now(),
+                ]);
+            }
+
             session()->put($sessionKey, true);
         }
 
@@ -119,7 +137,7 @@ class BlogController extends Controller
     private function highlight(string $text, string $keyword): string
     {
         $escaped = preg_quote($keyword, '/');
-        return preg_replace("/({$escaped})/iu", '<mark class="bg-red-100 text-red-600 font-semibold px-1 rounded">$1</mark>', e($text));
+        return preg_replace("/({$escaped})/iu", '<mark class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-semibold px-1 rounded">$1</mark>', e($text));
     }
 
     private function getExcerpt(Post $post, string $keyword): string

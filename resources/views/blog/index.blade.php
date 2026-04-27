@@ -2,12 +2,27 @@
 
 @section('title', isset($category) ? $category->name : (isset($tag) ? $tag->name : '首页'))
 
+@section('jsonld')
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ $siteTitle }}",
+    "description": "{{ $siteDescription }}",
+    "url": "{{ url('/') }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ url('/search') }}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }
+}
+@endsection
+
 @section('content')
 <div class="space-y-8">
     @if(isset($category))
-        <h1 class="text-2xl font-bold">分类：{{ $category->name }}</h1>
+        <h1 class="text-2xl font-bold dark:text-gray-100">分类：{{ $category->name }}</h1>
     @elseif(isset($tag))
-        <h1 class="text-2xl font-bold">标签：{{ $tag->name }}</h1>
+        <h1 class="text-2xl font-bold dark:text-gray-100">标签：{{ $tag->name }}</h1>
     @endif
 
     @forelse($posts as $post)
@@ -31,7 +46,7 @@
                 </span>
             </div>
             @if($post->excerpt)
-                <p class="text-gray-600 dark:text-gray-400">{{ $post->excerpt }}</p>
+                <p class="text-gray-600 dark:text-gray-300">{{ $post->excerpt }}</p>
             @endif
             <div class="mt-3 flex flex-wrap gap-2">
                 @foreach($post->tags as $t)

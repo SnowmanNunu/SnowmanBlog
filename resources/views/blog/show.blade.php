@@ -33,7 +33,33 @@ if ($post->cover_image) {
     $jsonLd['image'] = asset('storage/' . $post->cover_image);
 }
 @endphp
-@section('jsonld', json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
+@php
+$breadcrumbLd = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => '首页',
+            'item' => url('/'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => $post->category->name,
+            'item' => route('blog.category', $post->category->slug),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $post->title,
+            'item' => route('blog.show', $post->slug),
+        ],
+    ],
+];
+@endphp
+@section('jsonld', json_encode([$jsonLd, $breadcrumbLd], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
 
 @section('content')
 <style>
