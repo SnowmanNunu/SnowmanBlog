@@ -243,6 +243,14 @@
                 <div class="text-center md:text-left">
                     <p class="text-gray-600 font-medium">{{ $siteTitle }}</p>
                     <p class="text-gray-400 text-sm mt-1">{{ $siteDescription }}</p>
+                    @if(isset($links) && $links->isNotEmpty())
+                        <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                            <span class="text-gray-400">友情链接：</span>
+                            @foreach($links as $link)
+                                <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-blue-600 transition-colors" title="{{ $link->description }}">{{ $link->name }}</a>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="text-center md:text-right text-sm text-gray-400">
                     <p>&copy; {{ date('Y') }} {{ $siteTitle }}. All rights reserved.</p>
