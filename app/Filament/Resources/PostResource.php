@@ -70,17 +70,21 @@ class PostResource extends Resource
                     ->label('封面图')
                     ->image()
                     ->maxSize(10240)
-                    ->imageResizeTargetWidth(1200),
-                Forms\Components\Toggle::make('is_pinned')
-                    ->label('置顶')
-                    ->default(false),
-                Forms\Components\Toggle::make('is_published')
-                    ->label('已发布')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('published_at')
-                    ->label('发布时间')
-                    ->hint('选择未来时间可实现定时发布，到达时间后系统每分钟自动发布')
-                    ->nullable(),
+                    ->imageResizeTargetWidth(1200)
+                    ->columnSpanFull(),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Toggle::make('is_pinned')
+                            ->label('置顶')
+                            ->default(false),
+                        Forms\Components\Toggle::make('is_published')
+                            ->label('已发布')
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('发布时间')
+                            ->hint('选择未来时间可实现定时发布，到达时间后系统每分钟自动发布')
+                            ->nullable(),
+                    ]),
             ]);
     }
 
