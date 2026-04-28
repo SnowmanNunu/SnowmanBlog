@@ -37,6 +37,7 @@ class CommentController extends Controller
 
         $comment = Comment::create([
             ...$validated,
+            'content' => clean($validated['content']),
             'post_id' => $post->id,
             'ip' => $request->ip(),
             'is_approved' => $isAdmin,

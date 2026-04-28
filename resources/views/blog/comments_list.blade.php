@@ -18,7 +18,25 @@
                                 <span class="font-medium">{{ $comment->nickname }}</span>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ $comment->created_at->format('Y-m-d H:i') }}</span>
                             </div>
-                            <p class="text-gray-700 dark:text-gray-300">{{ $comment->content }}</p>
+                            <div class="comment-markdown text-gray-700 dark:text-gray-300">{!! clean(Str::markdown($comment->content)) !!}</div>
+
+                            <style>
+                            .comment-markdown p { margin-bottom: 0.5rem; line-height: 1.6; }
+                            .comment-markdown p:last-child { margin-bottom: 0; }
+                            .comment-markdown ul, .comment-markdown ol { margin-bottom: 0.5rem; padding-left: 1.25rem; }
+                            .comment-markdown ul { list-style-type: disc; }
+                            .comment-markdown ol { list-style-type: decimal; }
+                            .comment-markdown code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875em; background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #ef4444; }
+                            .dark .comment-markdown code { background: #1f2937; color: #f87171; }
+                            .comment-markdown pre { background: #1e293b; color: #e2e8f0; padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 0.5rem; }
+                            .comment-markdown pre code { background: transparent; padding: 0; color: #e2e8f0; }
+                            .comment-markdown blockquote { border-left: 3px solid #e5e7eb; padding-left: 0.75rem; color: #6b7280; font-style: italic; margin-bottom: 0.5rem; }
+                            .dark .comment-markdown blockquote { border-left-color: #374151; color: #9ca3af; }
+                            .comment-markdown a { color: #2563eb; text-decoration: underline; }
+                            .dark .comment-markdown a { color: #3b82f6; }
+                            .comment-markdown strong { font-weight: 600; }
+                            .comment-markdown h1, .comment-markdown h2, .comment-markdown h3, .comment-markdown h4 { font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+                            </style>
 
                             @php
                                 $replies = $comment->replies()->approved()->oldest()->get();
@@ -31,7 +49,7 @@
                                                 <span class="font-medium">{{ $reply->nickname }}</span>
                                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ $reply->created_at->format('Y-m-d H:i') }}</span>
                                             </div>
-                                            <p class="text-gray-700 dark:text-gray-300">{{ $reply->content }}</p>
+                                            <div class="comment-markdown text-gray-700 dark:text-gray-300">{!! clean(Str::markdown($reply->content)) !!}</div>
                                         </div>
                                     @endforeach
                                 </div>

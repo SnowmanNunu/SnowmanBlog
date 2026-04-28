@@ -39,6 +39,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">内容 *</label>
                 <textarea name="content" rows="4" required class="w-full rounded border-gray-300 dark:border-gray-600 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">支持 Markdown 语法和 Emoji 😀</p>
             </div>
             <button id="guestbook-submit" type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">提交留言</button>
         </form>
@@ -64,7 +65,25 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300">{{ $msg->content }}</p>
+                <div class="comment-markdown text-gray-700 dark:text-gray-300">{!! clean(Str::markdown($msg->content)) !!}</div>
+
+                <style>
+                .comment-markdown p { margin-bottom: 0.5rem; line-height: 1.6; }
+                .comment-markdown p:last-child { margin-bottom: 0; }
+                .comment-markdown ul, .comment-markdown ol { margin-bottom: 0.5rem; padding-left: 1.25rem; }
+                .comment-markdown ul { list-style-type: disc; }
+                .comment-markdown ol { list-style-type: decimal; }
+                .comment-markdown code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875em; background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #ef4444; }
+                .dark .comment-markdown code { background: #1f2937; color: #f87171; }
+                .comment-markdown pre { background: #1e293b; color: #e2e8f0; padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 0.5rem; }
+                .comment-markdown pre code { background: transparent; padding: 0; color: #e2e8f0; }
+                .comment-markdown blockquote { border-left: 3px solid #e5e7eb; padding-left: 0.75rem; color: #6b7280; font-style: italic; margin-bottom: 0.5rem; }
+                .dark .comment-markdown blockquote { border-left-color: #374151; color: #9ca3af; }
+                .comment-markdown a { color: #2563eb; text-decoration: underline; }
+                .dark .comment-markdown a { color: #3b82f6; }
+                .comment-markdown strong { font-weight: 600; }
+                .comment-markdown h1, .comment-markdown h2, .comment-markdown h3, .comment-markdown h4 { font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+                </style>
 
                 @if($msg->isReplied())
                     <div class="mt-4 bg-green-50 dark:bg-green-900/10 border-l-4 border-green-400 dark:border-green-700 p-4 rounded">

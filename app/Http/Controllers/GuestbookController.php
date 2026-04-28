@@ -36,6 +36,7 @@ class GuestbookController extends Controller
 
         Guestbook::create([
             ...$validated,
+            'content' => clean($validated['content']),
             'ip' => $request->ip(),
             'is_approved' => $isAdmin,
         ]);
