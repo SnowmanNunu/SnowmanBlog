@@ -94,6 +94,20 @@
                         <p class="text-gray-700 dark:text-gray-300">{{ $msg->reply }}</p>
                     </div>
                 @endif
+
+                @if(auth()->check())
+                    <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <form action="{{ route('guestbook.reply', $msg) }}" method="POST" class="space-y-2">
+                            @csrf
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">博主回复</label>
+                            <textarea name="reply" rows="2" class="w-full rounded border-gray-300 dark:border-gray-600 px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="输入回复内容...">{{ $msg->reply }}</textarea>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-gray-400 dark:text-gray-500">支持 Markdown 语法</p>
+                                <button type="submit" class="bg-green-600 text-white px-4 py-1.5 rounded text-sm hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">{{ $msg->isReplied() ? '更新回复' : '回复' }}</button>
+                            </div>
+                        </form>
+                    </div>
+                @endif
             </div>
         @empty
             <div class="text-center text-gray-500 dark:text-gray-400 py-12">还没有留言，来抢沙发吧！</div>

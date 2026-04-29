@@ -44,4 +44,22 @@ class GuestbookController extends Controller
         $message = $isAdmin ? '留言已发布！' : '留言提交成功，等待审核！';
         return back()->with('success', $message);
     }
+
+    public function reply(Request $request, Guestbook $guestbook)
+    {
+        if (! auth()->check()) {
+            return back()->with('error', '请先登录');
+        }
+
+        $validated = $request->validate([
+            'reply' => 'required|string|max:2000',
+        ]);
+
+        $guestbook->update([
+            'reply' => clean($validated['reply']),
+            'replied_at' => now(),
+        ]);
+
+        return back()->with('success', '回复成功');
+    }
 }

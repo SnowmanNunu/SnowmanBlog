@@ -19,9 +19,12 @@ Route::get('/guestbook', [GuestbookController::class, 'index'])->name('guestbook
 Route::post('/guestbook', [GuestbookController::class, 'store'])
     ->name('guestbook.store')
     ->middleware('throttle:3,1');
+Route::post('/guestbook/{guestbook}/reply', [GuestbookController::class, 'reply'])
+    ->name('guestbook.reply');
 
 Route::post('/post/{slug}/like', [BlogController::class, 'like'])->name('blog.like');
 
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('throttle:3,1');
+
