@@ -20,6 +20,8 @@ Route::post('/guestbook', [GuestbookController::class, 'store'])
     ->name('guestbook.store')
     ->middleware('throttle:3,1');
 
+Route::post('/post/{slug}/like', [BlogController::class, 'like'])->name('blog.like');
+
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('throttle:3,1');

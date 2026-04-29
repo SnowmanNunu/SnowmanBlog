@@ -55,6 +55,16 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function likes(): HasMany
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
+    public function getLikesCountAttribute(): int
+    {
+        return $this->likes()->count();
+    }
+
     public function scopePublished($query)
     {
         return $query->where('is_published', true)

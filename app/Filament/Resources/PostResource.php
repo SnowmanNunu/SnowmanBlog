@@ -115,6 +115,10 @@ class PostResource extends Resource
                 Tables\Columns\IconColumn::make('is_published')
                     ->label('已发布')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('likes_count')
+                    ->label('点赞数')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('发布时间')
                     ->dateTime()

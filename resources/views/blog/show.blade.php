@@ -129,6 +129,18 @@ $breadcrumbLd = [
                     <a href="{{ route('blog.tag', $t->slug) }}" class="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-sm rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">{{ $t->name }}</a>
                 @endforeach
             </div>
+
+            <div class="mt-8 flex items-center justify-between">
+                <form action="{{ route('blog.like', $post->slug) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-full hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors border border-pink-100 dark:border-pink-900/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-medium">{{ $post->likes_count ?? 0 }}</span>
+                    </button>
+                </form>
+            </div>
         </article>
 
         <!-- {{ __('Previous') }} / {{ __('Next') }} -->

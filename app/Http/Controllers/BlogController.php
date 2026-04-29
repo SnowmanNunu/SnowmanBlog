@@ -90,6 +90,28 @@ class BlogController extends Controller
         return view('blog.show', compact('post', 'prevPost', 'nextPost', 'relatedPosts'));
     }
 
+    public function like(Request $request, $slug)
+    {
+        $post = Post::published()->where('slug', $slug)->firstOrFail();
+        $ip = $request->ip();
+
+        $alreadyLiked = \App\Models\PostLike::where('post_id', $post->id)
+            ->where('ip_address', $ip)
+            ->exists();
+
+        if ($alreadyLiked) {
+            return back()->with('error', '您已经点赞过这篇文章了');
+        }
+
+        \App\Models\PostLike::create([
+            'post_id' => $post->id,
+            'ip_address' => $ip,
+            'user_agent' => substr($request->userAgent() ?? '', 0, 255),
+        ]);
+
+        return back()->with('success', '点赞成功！');
+    }
+
     public function category($slug)
     {
         $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
