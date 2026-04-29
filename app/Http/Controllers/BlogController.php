@@ -19,7 +19,9 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        return view('blog.index', compact('posts'));
+        $categories = \App\Models\Category::withCount('posts')->get();
+
+        return view('blog.index', compact('posts', 'categories'));
     }
 
     public function show(Request $request, $slug)
@@ -125,7 +127,9 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        return view('blog.index', compact('posts', 'category'));
+        $categories = \App\Models\Category::withCount('posts')->get();
+
+        return view('blog.index', compact('posts', 'category', 'categories'));
     }
 
     public function tag($slug)
@@ -141,7 +145,9 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        return view('blog.index', compact('posts', 'tag'));
+        $categories = \App\Models\Category::withCount('posts')->get();
+
+        return view('blog.index', compact('posts', 'tag', 'categories'));
     }
 
     public function search(Request $request)
