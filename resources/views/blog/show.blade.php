@@ -92,6 +92,9 @@ $breadcrumbLd = [
 .dark .article-content a { color: #3b82f6; }
 </style>
 
+<!-- 阅读进度条 -->
+<div id="reading-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 z-50 transition-all duration-100" style="width: 0%"></div>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -380,6 +383,28 @@ hljs.highlightAll();
             margin: 24,
         });
     }
+
+    // 阅读进度条
+    (function() {
+        var bar = document.getElementById('reading-progress');
+        var article = document.querySelector('article');
+        if (!bar || !article) return;
+
+        function updateProgress() {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var rect = article.getBoundingClientRect();
+            var articleTop = rect.top + scrollTop;
+            var articleHeight = article.scrollHeight;
+            var viewportHeight = window.innerHeight;
+            var scrolled = scrollTop - articleTop + viewportHeight;
+            var percent = (scrolled / articleHeight) * 100;
+            bar.style.width = Math.max(0, Math.min(100, percent)) + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('resize', updateProgress);
+        updateProgress();
+    })();
 
     // 分享功能
     window.shareWechat = function() {
