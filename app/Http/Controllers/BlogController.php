@@ -21,8 +21,15 @@ class BlogController extends Controller
 
         $categories = \App\Models\Category::withCount('posts')->get();
         $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
+            return Post::published()
+                ->orderBy('views', 'desc')
+                ->select('id', 'title', 'slug', 'views', 'cover_image')
+                ->limit(5)
+                ->get();
+        });
 
-        return view('blog.index', compact('posts', 'categories', 'tags'));
+        return view('blog.index', compact('posts', 'categories', 'tags', 'popularPosts'));
     }
 
     public function show(Request $request, $slug)
@@ -130,8 +137,15 @@ class BlogController extends Controller
 
         $categories = \App\Models\Category::withCount('posts')->get();
         $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
+            return Post::published()
+                ->orderBy('views', 'desc')
+                ->select('id', 'title', 'slug', 'views', 'cover_image')
+                ->limit(5)
+                ->get();
+        });
 
-        return view('blog.index', compact('posts', 'category', 'categories', 'tags'));
+        return view('blog.index', compact('posts', 'category', 'categories', 'tags', 'popularPosts'));
     }
 
     public function tag($slug)
@@ -149,8 +163,15 @@ class BlogController extends Controller
 
         $categories = \App\Models\Category::withCount('posts')->get();
         $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
+            return Post::published()
+                ->orderBy('views', 'desc')
+                ->select('id', 'title', 'slug', 'views', 'cover_image')
+                ->limit(5)
+                ->get();
+        });
 
-        return view('blog.index', compact('posts', 'tag', 'categories', 'tags'));
+        return view('blog.index', compact('posts', 'tag', 'categories', 'tags', 'popularPosts'));
     }
 
     public function search(Request $request)
