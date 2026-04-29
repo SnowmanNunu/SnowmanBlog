@@ -41,7 +41,6 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 \App\Filament\Widgets\StatsOverview::class,
                 \App\Filament\Widgets\BlogViewsChart::class,
-                \App\Filament\Widgets\PostChart::class,
                 \App\Filament\Widgets\LatestPendingReviews::class,
             ])
             ->middleware([
