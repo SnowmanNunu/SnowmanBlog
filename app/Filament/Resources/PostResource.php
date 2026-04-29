@@ -22,6 +22,8 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\View::make('components.draft-autosave')
+                    ->columnSpanFull(),
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required()
