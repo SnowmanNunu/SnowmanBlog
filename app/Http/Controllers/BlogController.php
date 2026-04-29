@@ -20,8 +20,9 @@ class BlogController extends Controller
         });
 
         $categories = \App\Models\Category::withCount('posts')->get();
+        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
 
-        return view('blog.index', compact('posts', 'categories'));
+        return view('blog.index', compact('posts', 'categories', 'tags'));
     }
 
     public function show(Request $request, $slug)
@@ -128,8 +129,9 @@ class BlogController extends Controller
         });
 
         $categories = \App\Models\Category::withCount('posts')->get();
+        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
 
-        return view('blog.index', compact('posts', 'category', 'categories'));
+        return view('blog.index', compact('posts', 'category', 'categories', 'tags'));
     }
 
     public function tag($slug)
@@ -146,8 +148,9 @@ class BlogController extends Controller
         });
 
         $categories = \App\Models\Category::withCount('posts')->get();
+        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
 
-        return view('blog.index', compact('posts', 'tag', 'categories'));
+        return view('blog.index', compact('posts', 'tag', 'categories', 'tags'));
     }
 
     public function search(Request $request)
