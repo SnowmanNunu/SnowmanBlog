@@ -166,7 +166,10 @@
                             type="button"
                             x-show="action === 'approve'"
                             @click="confirm()"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-green-600 hover:bg-green-500"
+                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg"
+                            style="background-color: #16a34a; color: #fff;"
+                            onmouseover="this.style.backgroundColor='#15803d'"
+                            onmouseout="this.style.backgroundColor='#16a34a'"
                         >
                             确认通过
                         </button>
@@ -174,7 +177,10 @@
                             type="button"
                             x-show="action === 'delete'"
                             @click="confirm()"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-600 hover:bg-red-500"
+                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg"
+                            style="background-color: #dc2626; color: #fff;"
+                            onmouseover="this.style.backgroundColor='#b91c1c'"
+                            onmouseout="this.style.backgroundColor='#dc2626'"
                         >
                             确认删除
                         </button>
