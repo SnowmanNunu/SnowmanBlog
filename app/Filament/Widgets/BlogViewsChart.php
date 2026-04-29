@@ -12,15 +12,21 @@ class BlogViewsChart extends ChartWidget
 
     protected function getData(): array
     {
+        $startDate = now()->subDays(29)->format('Y-m-d');
+
+        $raw = DB::table('post_views')
+            ->selectRaw('DATE(viewed_at) as date, COUNT(*) as count')
+            ->whereDate('viewed_at', '>=', $startDate)
+            ->groupByRaw('DATE(viewed_at)')
+            ->pluck('count', 'date');
+
         $dates = [];
         $counts = [];
 
         for ($i = 29; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('Y-m-d');
             $dates[] = now()->subDays($i)->format('m-d');
-            $counts[] = DB::table('post_views')
-                ->whereDate('viewed_at', $date)
-                ->count();
+            $counts[] = $raw[$date] ?? 0;
         }
 
         return [

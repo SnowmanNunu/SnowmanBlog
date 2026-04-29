@@ -12,13 +12,21 @@ class PostChart extends ChartWidget
 
     protected function getData(): array
     {
+        $startDate = now()->subDays(29)->format('Y-m-d');
+
+        $raw = Post::query()
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->whereDate('created_at', '>=', $startDate)
+            ->groupByRaw('DATE(created_at)')
+            ->pluck('count', 'date');
+
         $dates = [];
         $counts = [];
 
         for ($i = 29; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('Y-m-d');
             $dates[] = now()->subDays($i)->format('m-d');
-            $counts[] = Post::whereDate('created_at', $date)->count();
+            $counts[] = $raw[$date] ?? 0;
         }
 
         return [

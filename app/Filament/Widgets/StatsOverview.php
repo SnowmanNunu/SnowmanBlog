@@ -7,6 +7,7 @@ use App\Models\Guestbook;
 use App\Models\Post;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class StatsOverview extends BaseWidget
@@ -19,19 +20,29 @@ class StatsOverview extends BaseWidget
         $pendingGuestbooks = Guestbook::where('is_approved', false)->count();
         $pendingComments = Comment::where('is_approved', false)->count();
 
-        // 今日访问统计
-        $todayPv = DB::table('post_views')->whereDate('viewed_at', today())->count();
-        $todayUv = DB::table('post_views')->whereDate('viewed_at', today())->distinct('ip_address')->count('ip_address');
-        $yesterdayPv = DB::table('post_views')->whereDate('viewed_at', today()->subDay())->count();
-        $pvTrend = $yesterdayPv > 0 ? round((($todayPv - $yesterdayPv) / $yesterdayPv) * 100) . '%' : ($todayPv > 0 ? '+100%' : '0%');
+        // 今日访问统计（缓存5分钟）
+        $todayStats = Cache::remember('dashboard:today_stats', 300, function () {
+            $pv = DB::table('post_views')->whereDate('viewed_at', today())->count();
+            $uv = DB::table('post_views')->whereDate('viewed_at', today())->distinct('ip_address')->count('ip_address');
+            $yesterdayPv = DB::table('post_views')->whereDate('viewed_at', today()->subDay())->count();
+            return [
+                'pv' => $pv,
+                'uv' => $uv,
+                'yesterday_pv' => $yesterdayPv,
+            ];
+        });
+
+        $pvTrend = $todayStats['yesterday_pv'] > 0
+            ? round((($todayStats['pv'] - $todayStats['yesterday_pv']) / $todayStats['yesterday_pv']) * 100) . '%'
+            : ($todayStats['pv'] > 0 ? '+100%' : '0%');
 
         $stats = [
             Stat::make('文章总数', Post::count())
                 ->description('全部文章')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('primary'),
-            Stat::make('今日访问', $todayPv)
-                ->description("UV {$todayUv} | 较昨日 {$pvTrend}")
+            Stat::make('今日访问', $todayStats['pv'])
+                ->description("UV {$todayStats['uv']} | 较昨日 {$pvTrend}")
                 ->descriptionIcon('heroicon-m-eye')
                 ->color('info'),
             Stat::make('今日发布', $todayCount)

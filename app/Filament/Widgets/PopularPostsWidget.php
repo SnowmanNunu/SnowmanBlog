@@ -6,6 +6,7 @@ use App\Models\Post;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Support\Facades\Cache;
 
 class PopularPostsWidget extends BaseWidget
 {
@@ -17,7 +18,8 @@ class PopularPostsWidget extends BaseWidget
         return $table
             ->query(
                 Post::query()
-                    ->withCount('views')
+                    ->select('posts.*')
+                    ->selectRaw('(SELECT COUNT(*) FROM post_views WHERE post_views.post_id = posts.id) as views_count')
                     ->orderBy('views_count', 'desc')
                     ->limit(10)
             )
