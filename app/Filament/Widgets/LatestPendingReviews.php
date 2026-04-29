@@ -4,14 +4,24 @@ namespace App\Filament\Widgets;
 
 use App\Models\Comment;
 use App\Models\Guestbook;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\DB;
 
-class LatestPendingReviews extends Widget
+class LatestPendingReviews extends Widget implements HasActions
 {
+    use InteractsWithActions;
+
     protected static string $view = 'filament.widgets.latest-pending-reviews';
     protected int | string | array $columnSpan = 'full';
+
+    public function makeFilamentTranslatableContentDriver(): ?\Filament\Support\Contracts\TranslatableContentDriver
+    {
+        return null;
+    }
 
     public function getPendingReviews(): array
     {
@@ -43,31 +53,39 @@ class LatestPendingReviews extends Widget
         return DB::table('posts')->where('id', $postId)->value('title');
     }
 
-    public function approve(int $id, string $type): void
+    public function approveAction(): Action
     {
-        if ($type === '评论') {
-            Comment::where('id', $id)->update(['is_approved' => true]);
-        } else {
-            Guestbook::where('id', $id)->update(['is_approved' => true]);
-        }
-
-        Notification::make()
-            ->success()
-            ->title('已通过')
-            ->send();
+        return Action::make('approve')
+            ->requiresConfirmation()
+            ->modalHeading('确认通过')
+            ->modalDescription(fn (array $arguments): string => "确定要通过 {$arguments['nickname']} 的{$arguments['type']}吗？")
+            ->modalSubmitActionLabel('确认通过')
+            ->color('success')
+            ->action(function (array $arguments) {
+                if ($arguments['type'] === '评论') {
+                    Comment::where('id', $arguments['id'])->update(['is_approved' => true]);
+                } else {
+                    Guestbook::where('id', $arguments['id'])->update(['is_approved' => true]);
+                }
+                Notification::make()->success()->title('已通过')->send();
+            });
     }
 
-    public function deleteReview(int $id, string $type): void
+    public function deleteAction(): Action
     {
-        if ($type === '评论') {
-            Comment::where('id', $id)->delete();
-        } else {
-            Guestbook::where('id', $id)->delete();
-        }
-
-        Notification::make()
-            ->success()
-            ->title('已删除')
-            ->send();
+        return Action::make('delete')
+            ->requiresConfirmation()
+            ->modalHeading('确认删除')
+            ->modalDescription(fn (array $arguments): string => "确定要删除 {$arguments['nickname']} 的{$arguments['type']}吗？")
+            ->modalSubmitActionLabel('确认删除')
+            ->color('danger')
+            ->action(function (array $arguments) {
+                if ($arguments['type'] === '评论') {
+                    Comment::where('id', $arguments['id'])->delete();
+                } else {
+                    Guestbook::where('id', $arguments['id'])->delete();
+                }
+                Notification::make()->success()->title('已删除')->send();
+            });
     }
 }
