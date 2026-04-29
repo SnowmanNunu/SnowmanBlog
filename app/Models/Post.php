@@ -8,14 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'category_id', 'user_id', 'title', 'slug', 'excerpt',
-        'content', 'cover_image', 'is_published', 'is_pinned', 'published_at'
+        'content', 'cover_image', 'is_published', 'is_pinned', 'published_at',
+        'meta_title', 'meta_description', 'meta_keywords',
     ];
 
     protected $casts = [
@@ -23,6 +26,16 @@ class Post extends Model
         'is_pinned' => 'boolean',
         'published_at' => 'datetime',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn (string $eventName) => "文章已{$eventName}")
+            ->useLogName('post');
+    }
 
     protected static function booted(): void
     {
@@ -58,6 +71,11 @@ class Post extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(PostLike::class);
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(PostView::class);
     }
 
     public function getLikesCountAttribute(): int

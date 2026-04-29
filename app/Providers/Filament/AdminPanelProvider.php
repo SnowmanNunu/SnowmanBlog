@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                \App\Filament\Pages\CacheManager::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -42,7 +43,9 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\StatsOverview::class,
                 \App\Filament\Widgets\BlogViewsChart::class,
                 \App\Filament\Widgets\PostChart::class,
+                \App\Filament\Widgets\LatestPendingReviews::class,
                 \App\Filament\Widgets\LatestPosts::class,
+                \App\Filament\Widgets\PopularPostsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
