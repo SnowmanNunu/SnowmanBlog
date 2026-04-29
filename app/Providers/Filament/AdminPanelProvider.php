@@ -44,8 +44,6 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\BlogViewsChart::class,
                 \App\Filament\Widgets\PostChart::class,
                 \App\Filament\Widgets\LatestPendingReviews::class,
-                \App\Filament\Widgets\LatestPosts::class,
-                \App\Filament\Widgets\PopularPostsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
