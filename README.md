@@ -238,6 +238,92 @@ chown -R www-data:www-data storage bootstrap/cache
 
 访问 `http://your-domain.com` 查看博客首页，访问 `http://your-domain.com/admin` 进入后台管理面板，使用步骤 8 创建的账号登录。
 
+---
+
+## Docker 部署
+
+本项目提供完整的 Docker 支持，一键启动包含 PHP-FPM、Nginx、MySQL、Redis 的全栈环境。
+
+### 环境要求
+
+- Docker >= 20.10
+- Docker Compose >= 2.0
+
+### 1. 克隆代码
+
+```bash
+git clone https://github.com/SnowmanNunu/SnowmanBlog.git
+cd SnowmanBlog
+```
+
+### 2. 启动容器
+
+```bash
+docker-compose up -d
+```
+
+首次启动会自动完成：
+- 安装 Composer 依赖
+- 生成应用密钥
+- 运行数据库迁移
+- 创建存储软链接
+- 生成配置 / 路由 / 视图缓存
+
+### 3. 创建管理员账号
+
+```bash
+docker-compose exec app php artisan tinker
+```
+
+在 tinker 中执行：
+
+```php
+App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@example.com',
+    'password' => bcrypt('your_password'),
+]);
+```
+
+### 4. 访问应用
+
+- 博客首页：http://localhost:8080
+- 后台管理：http://localhost:8080/admin
+
+### 5. 常用命令
+
+```bash
+# 查看容器状态
+docker-compose ps
+
+# 查看应用日志
+docker-compose logs -f app
+
+# 进入应用容器
+docker-compose exec app sh
+
+# 重启服务
+docker-compose restart
+
+# 停止并移除容器
+docker-compose down
+
+# 重建镜像（代码变更后）
+docker-compose up -d --build
+```
+
+### 6. 容器架构
+
+| 容器 | 服务 | 端口 | 说明 |
+|------|------|------|------|
+| `snowmanblog-app` | PHP-FPM + Supervisor | — | 主应用、队列 Worker |
+| `snowmanblog-web` | Nginx | `8080` | Web 入口 |
+| `snowmanblog-db` | MySQL 8.0 | `3306` | 数据库 |
+| `snowmanblog-redis` | Redis | `6379` | 缓存 / 队列 |
+| `snowmanblog-scheduler` | Cron | — | 定时任务调度 |
+
+---
+
 ## 项目结构
 
 ```
