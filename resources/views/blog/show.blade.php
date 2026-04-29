@@ -130,7 +130,7 @@ $breadcrumbLd = [
                 @endforeach
             </div>
 
-            <div class="mt-8 flex items-center justify-between">
+            <div class="mt-8 flex items-center justify-between flex-wrap gap-4">
                 <form action="{{ route('blog.like', $post->slug) }}" method="POST">
                     @csrf
                     <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-full hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors border border-pink-100 dark:border-pink-900/30">
@@ -140,6 +140,35 @@ $breadcrumbLd = [
                         <span class="font-medium">{{ $post->likes_count ?? 0 }}</span>
                     </button>
                 </form>
+
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="shareWechat()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-sm font-medium border border-green-100 dark:border-green-900/30">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.067 5.591-.13.487-.478 1.335-.82 1.89-.073.124-.09.24-.045.347.045.107.15.18.285.195 1.18.135 2.864-.06 3.84-.56a11.87 11.87 0 0 0 2.364.236c.08 0 .16 0 .24-.005.045.45.195.9.435 1.305.51.855 1.35 1.5 2.385 1.83.945.3 1.995.3 2.955.045.81.435 1.89.6 2.82.42.135-.03.24-.105.285-.21.045-.105.03-.225-.045-.345-.33-.54-.66-1.35-.78-1.815 1.665-1.245 2.73-3.09 2.73-5.145 0-4.155-4.005-7.53-8.955-7.53-.225 0-.45.015-.675.03.045-.45.18-.87.435-1.245.51-.765 1.335-1.32 2.34-1.605.99-.285 2.1-.27 3.09.045.135.045.285.03.39-.045a.42.42 0 0 0 .165-.33c-.015-.12-.075-.225-.165-.3-1.08-.915-2.49-1.44-3.99-1.44-.195 0-.39.015-.585.03z"/></svg>
+                        微信
+                    </button>
+                    <a href="https://service.weibo.com/share/share.php?url={{ urlencode(route('blog.show', $post->slug)) }}&title={{ urlencode($post->title) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium border border-red-100 dark:border-red-900/30">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.601.622.263.82.972.442 1.592zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.313-.361-.177-.586.138-.227.436-.346.672-.24.239.09.315.36.194.573zm.176-2.719c-1.893-.493-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.64 4.318-.341 5.132-2.179.8-1.793-.201-3.642-2.161-4.149zm7.563-1.224c-.346-.105-.579-.18-.401-.649.386-1.02.426-1.899.003-2.525-.793-1.17-2.966-1.109-5.419-.031 0 0-.776.34-.578-.277.381-1.215.324-2.234-.27-2.822-1.349-1.33-4.937.047-8.014 3.079C1.134 10.611 0 12.775 0 14.665c0 3.608 4.644 5.808 9.183 5.808 5.951 0 9.906-3.454 9.906-6.197 0-1.654-1.396-2.594-2.12-2.827zm.696-6.349c-.666-.747-1.654-1.123-2.774-1.056l-.045.002a.42.42 0 0 0-.405.437c.007.135.06.261.15.357a.69.69 0 0 0 .48.195c.69-.042 1.323.195 1.755.669.429.471.607 1.113.501 1.808a.419.419 0 0 0 .33.49.42.42 0 0 0 .495-.327c.15-.985-.09-1.917-.687-2.575h.2zm1.537 1.318c-.966-1.083-2.403-1.629-4.03-1.53a.42.42 0 1 0 .052.838c1.314-.08 2.445.361 3.24 1.254.793.891 1.14 2.101.978 3.409a.42.42 0 0 0 .487.358.421.421 0 0 0 .358-.488c.198-1.583-.23-3.04-1.085-3.841z"/></svg>
+                        微博
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('blog.show', $post->slug)) }}&text={{ urlencode($post->title) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 rounded-full hover:bg-sky-100 dark:hover:bg-sky-900/30 transition-colors text-sm font-medium border border-sky-100 dark:border-sky-900/30">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.936 4.936 0 0 0 4.604 3.417 9.867 9.867 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0 0 24 4.59z"/></svg>
+                        Twitter
+                    </a>
+                    <button onclick="copyLink()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm font-medium border border-gray-100 dark:border-gray-600">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span id="copy-text">复制链接</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 微信分享弹窗 -->
+            <div id="wechat-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50" onclick="if(event.target===this){this.classList.add('hidden');this.classList.remove('flex');}">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg max-w-sm mx-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">微信扫一扫分享</h3>
+                    <img id="wechat-qrcode" src="" alt="微信二维码" class="mx-auto w-48 h-48 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">打开微信扫一扫，分享给好友</p>
+                    <button onclick="document.getElementById('wechat-modal').classList.add('hidden');document.getElementById('wechat-modal').classList.remove('flex');" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">关闭</button>
+                </div>
             </div>
         </article>
 
@@ -351,6 +380,40 @@ hljs.highlightAll();
             margin: 24,
         });
     }
+
+    // 分享功能
+    window.shareWechat = function() {
+        var url = encodeURIComponent(window.location.href);
+        document.getElementById('wechat-qrcode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url;
+        var modal = document.getElementById('wechat-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    };
+
+    window.copyLink = function() {
+        var url = window.location.href;
+        var btn = document.getElementById('copy-text');
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(function() {
+                btn.textContent = '已复制';
+                setTimeout(function() { btn.textContent = '复制链接'; }, 2000);
+            });
+        } else {
+            var textarea = document.createElement('textarea');
+            textarea.value = url;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                btn.textContent = '已复制';
+                setTimeout(function() { btn.textContent = '复制链接'; }, 2000);
+            } catch (e) {}
+            document.body.removeChild(textarea);
+        }
+    };
 })();
 </script>
 @endsection
