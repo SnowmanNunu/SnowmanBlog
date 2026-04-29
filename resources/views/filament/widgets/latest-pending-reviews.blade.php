@@ -158,19 +158,26 @@
                         <button
                             type="button"
                             @click="open = false"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
+                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                         >
                             取消
                         </button>
                         <button
                             type="button"
+                            x-show="action === 'approve'"
                             @click="confirm()"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            :class="actionColor === 'success'
-                                ? 'bg-success-600 hover:bg-success-500 focus:ring-success-500 dark:focus:ring-success-400'
-                                : 'bg-danger-600 hover:bg-danger-500 focus:ring-danger-500 dark:focus:ring-danger-400'"
-                            x-text="actionLabel"
-                        ></button>
+                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-green-600 hover:bg-green-500"
+                        >
+                            确认通过
+                        </button>
+                        <button
+                            type="button"
+                            x-show="action === 'delete'"
+                            @click="confirm()"
+                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-600 hover:bg-red-500"
+                        >
+                            确认删除
+                        </button>
                     </div>
                 </div>
             </div>
