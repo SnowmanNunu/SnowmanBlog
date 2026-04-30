@@ -8,7 +8,7 @@ use App\Http\Controllers\SitemapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/', fn () => 'TEST HOME')->name('blog.index');
 Route::get('/post/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
 Route::get('/tag/{slug}', [BlogController::class, 'tag'])->name('blog.tag');
@@ -36,3 +36,4 @@ Route::get('/backups/download', function (Request $request) {
 
     return response()->download($path);
 })->middleware('auth')->name('backup.download');
+Route::get('/test-debug', fn () => 'hello from web');
