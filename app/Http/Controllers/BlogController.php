@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
@@ -186,13 +187,17 @@ class BlogController extends Controller
             ->orderByDesc('is_pinned')
             ->latest('published_at');
 
-        // Try FULLTEXT search first
-        $posts = (clone $query)
-            ->whereRaw('MATCH(title, content, excerpt) AGAINST(? IN NATURAL LANGUAGE MODE)', [$keyword])
-            ->limit(10)
-            ->get();
+        $isSqlite = DB::getDriverName() === 'sqlite';
 
-        // Fallback to LIKE if no FULLTEXT results
+        if (! $isSqlite) {
+            $posts = (clone $query)
+                ->whereRaw('MATCH(title, content, excerpt) AGAINST(? IN NATURAL LANGUAGE MODE)', [$keyword])
+                ->limit(10)
+                ->get();
+        } else {
+            $posts = collect();
+        }
+
         if ($posts->isEmpty()) {
             $posts = $query
                 ->where(function ($q) use ($keyword) {

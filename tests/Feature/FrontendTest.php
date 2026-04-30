@@ -64,7 +64,7 @@ class FrontendTest extends TestCase
         $response = $this->get(route('blog.search', ['q' => 'Laravel']));
 
         $response->assertStatus(200);
-        $response->assertViewHas('posts');
+        $response->assertJsonCount(1);
     }
 
     public function test_guestbook_page_displays_messages(): void
@@ -139,7 +139,7 @@ class FrontendTest extends TestCase
 
         $response = $this->post(route('blog.like', $post->slug));
 
-        $response->assertOk();
+        $response->assertRedirect();
         $this->assertDatabaseHas('post_likes', [
             'post_id' => $post->id,
         ]);

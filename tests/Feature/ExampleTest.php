@@ -14,8 +14,8 @@ class ExampleTest extends TestCase
     {
         Post::factory()->create();
 
-         = ->get('/');
+        $response = $this->get('/');
 
-        ->assertStatus(200);
+        $response->assertStatus(200);
     }
 }
