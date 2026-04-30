@@ -8,7 +8,8 @@ use Filament\Widgets\ChartWidget;
 class PostChart extends ChartWidget
 {
     protected static ?string $heading = '最近30天文章发布趋势';
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     protected function getData(): array
     {

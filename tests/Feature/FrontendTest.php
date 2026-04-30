@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
-use App\Models\Comment;
 use App\Models\Guestbook;
 use App\Models\Post;
 use App\Models\Tag;

@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $navigationLabel = '网站配置';
+
     protected static ?string $modelLabel = '配置项';
+
     protected static ?string $pluralModelLabel = '配置项';
 
     public static function form(Form $form): Form

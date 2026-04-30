@@ -15,7 +15,7 @@ class Comment extends Model
 
     protected $fillable = [
         'post_id', 'parent_id', 'nickname', 'email',
-        'website', 'content', 'is_approved', 'ip'
+        'website', 'content', 'is_approved', 'ip',
     ];
 
     protected $casts = [

@@ -13,7 +13,7 @@ class Guestbook extends Model
 
     protected $fillable = [
         'nickname', 'email', 'website', 'content',
-        'reply', 'replied_at', 'is_approved', 'ip'
+        'reply', 'replied_at', 'is_approved', 'ip',
     ];
 
     protected $casts = [
@@ -43,6 +43,6 @@ class Guestbook extends Model
 
     public function isReplied(): bool
     {
-        return !is_null($this->reply);
+        return ! is_null($this->reply);
     }
 }

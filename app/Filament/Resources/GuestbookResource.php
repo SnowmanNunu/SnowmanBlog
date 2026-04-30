@@ -14,9 +14,13 @@ use Filament\Tables\Table;
 class GuestbookResource extends Resource
 {
     protected static ?string $model = Guestbook::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
     protected static ?string $navigationLabel = '留言管理';
+
     protected static ?string $modelLabel = '留言';
+
     protected static ?string $pluralModelLabel = '留言';
 
     public static function form(Form $form): Form

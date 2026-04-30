@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
+use Filament\Support\Contracts\TranslatableContentDriver;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\DB;
 
@@ -16,9 +17,10 @@ class LatestPendingReviews extends Widget implements HasActions
     use InteractsWithActions;
 
     protected static string $view = 'filament.widgets.latest-pending-reviews';
-    protected int | string | array $columnSpan = 'full';
 
-    public function makeFilamentTranslatableContentDriver(): ?\Filament\Support\Contracts\TranslatableContentDriver
+    protected int|string|array $columnSpan = 'full';
+
+    public function makeFilamentTranslatableContentDriver(): ?TranslatableContentDriver
     {
         return null;
     }
@@ -49,7 +51,10 @@ class LatestPendingReviews extends Widget implements HasActions
 
     public function getPostTitle(?int $postId): ?string
     {
-        if (!$postId) return null;
+        if (! $postId) {
+            return null;
+        }
+
         return DB::table('posts')->where('id', $postId)->value('title');
     }
 

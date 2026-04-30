@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class LinkResource extends Resource
 {
     protected static ?string $model = Link::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-link';
+
     protected static ?string $navigationLabel = '友情链接';
+
     protected static ?string $modelLabel = '友情链接';
+
     protected static ?string $pluralModelLabel = '友情链接';
 
     public static function form(Form $form): Form
@@ -60,16 +64,16 @@ class LinkResource extends Resource
                 ->numeric()
                 ->sortable(),
         ])
-        ->defaultSort('sort_order', 'asc')
-        ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+            ->defaultSort('sort_order', 'asc')
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array

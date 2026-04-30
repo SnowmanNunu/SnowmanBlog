@@ -16,7 +16,7 @@ class StatsOverview extends BaseWidget
     {
         $todayCount = Post::whereDate('created_at', today())->count();
         $yesterdayCount = Post::whereDate('created_at', today()->subDay())->count();
-        $trend = $yesterdayCount > 0 ? round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100) . '%' : ($todayCount > 0 ? '+100%' : '0%');
+        $trend = $yesterdayCount > 0 ? round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100).'%' : ($todayCount > 0 ? '+100%' : '0%');
         $pendingGuestbooks = Guestbook::where('is_approved', false)->count();
         $pendingComments = Comment::where('is_approved', false)->count();
 
@@ -25,6 +25,7 @@ class StatsOverview extends BaseWidget
             $pv = DB::table('post_views')->whereDate('viewed_at', today())->count();
             $uv = DB::table('post_views')->whereDate('viewed_at', today())->distinct('ip_address')->count('ip_address');
             $yesterdayPv = DB::table('post_views')->whereDate('viewed_at', today()->subDay())->count();
+
             return [
                 'pv' => $pv,
                 'uv' => $uv,
@@ -33,7 +34,7 @@ class StatsOverview extends BaseWidget
         });
 
         $pvTrend = $todayStats['yesterday_pv'] > 0
-            ? round((($todayStats['pv'] - $todayStats['yesterday_pv']) / $todayStats['yesterday_pv']) * 100) . '%'
+            ? round((($todayStats['pv'] - $todayStats['yesterday_pv']) / $todayStats['yesterday_pv']) * 100).'%'
             : ($todayStats['pv'] > 0 ? '+100%' : '0%');
 
         $stats = [
@@ -46,11 +47,11 @@ class StatsOverview extends BaseWidget
                 ->descriptionIcon('heroicon-m-eye')
                 ->color('info'),
             Stat::make('今日发布', $todayCount)
-                ->description('较昨日 ' . $trend)
+                ->description('较昨日 '.$trend)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
             Stat::make('留言总数', Guestbook::count())
-                ->description('待回复 ' . Guestbook::whereNull('reply')->count())
+                ->description('待回复 '.Guestbook::whereNull('reply')->count())
                 ->descriptionIcon('heroicon-m-chat-bubble-left-right')
                 ->color('warning'),
             Stat::make('评论总数', Comment::count())

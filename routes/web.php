@@ -3,8 +3,8 @@
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GuestbookController;
-use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\RssController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'index'])->name('blog.index');
@@ -27,4 +27,3 @@ Route::post('/post/{slug}/like', [BlogController::class, 'like'])->name('blog.li
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('throttle:3,1');
-

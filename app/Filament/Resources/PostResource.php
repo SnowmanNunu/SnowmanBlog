@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static ?string $navigationLabel = '文章管理';
+
     protected static ?string $modelLabel = '文章';
+
     protected static ?string $pluralModelLabel = '文章';
 
     public static function form(Form $form): Form

@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static ?string $navigationLabel = '分类管理';
+
     protected static ?string $modelLabel = '分类';
+
     protected static ?string $pluralModelLabel = '分类';
 
     public static function form(Form $form): Form

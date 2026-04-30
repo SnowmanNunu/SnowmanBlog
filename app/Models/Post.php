@@ -86,7 +86,7 @@ class Post extends Model
     public function scopePublished($query)
     {
         return $query->where('is_published', true)
-                     ->whereNotNull('published_at')
-                     ->where('published_at', '<=', now());
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 }

@@ -44,29 +44,30 @@ class CommentController extends Controller
         ]);
 
         // 通知被回复的评论者
-        if (!empty($validated['parent_id'])) {
+        if (! empty($validated['parent_id'])) {
             $parentComment = Comment::find($validated['parent_id']);
             if ($parentComment && $parentComment->email && $parentComment->email !== ($validated['email'] ?? null)) {
                 try {
                     Mail::to($parentComment->email)->send(new CommentReplyMail($comment, $parentComment));
                 } catch (\Throwable $e) {
-                    \Log::error('Comment reply notification email failed: ' . $e->getMessage());
+                    \Log::error('Comment reply notification email failed: '.$e->getMessage());
                 }
             }
         }
 
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             try {
                 $adminEmail = Setting::get('admin_email') ?? User::first()?->email;
                 if ($adminEmail) {
                     Mail::to($adminEmail)->send(new NewCommentMail($comment));
                 }
             } catch (\Throwable $e) {
-                \Log::error('Comment notification email failed: ' . $e->getMessage());
+                \Log::error('Comment notification email failed: '.$e->getMessage());
             }
         }
 
         $message = $isAdmin ? '回复已发布！' : '评论提交成功，等待审核！';
+
         return back()->with('success', $message);
     }
 }

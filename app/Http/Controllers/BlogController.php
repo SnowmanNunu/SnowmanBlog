@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostLike;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +23,8 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        $categories = \App\Models\Category::withCount('posts')->get();
-        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $categories = Category::withCount('posts')->get();
+        $tags = Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
         $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
             return Post::published()
                 ->orderBy('views', 'desc')
@@ -40,8 +43,8 @@ class BlogController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        $sessionKey = 'viewed_post_' . $post->id;
-        if (!session()->has($sessionKey)) {
+        $sessionKey = 'viewed_post_'.$post->id;
+        if (! session()->has($sessionKey)) {
             $ip = $request->ip();
             $today = now()->toDateString();
 
@@ -51,7 +54,7 @@ class BlogController extends Controller
                 ->whereDate('viewed_at', $today)
                 ->exists();
 
-            if (!$alreadyViewed) {
+            if (! $alreadyViewed) {
                 $post->increment('views');
                 \DB::table('post_views')->insert([
                     'post_id' => $post->id,
@@ -87,9 +90,9 @@ class BlogController extends Controller
                 ->where('id', '!=', $post->id)
                 ->where(function ($query) use ($post) {
                     $query->where('category_id', $post->category_id)
-                          ->orWhereHas('tags', function ($q) use ($post) {
-                              $q->whereIn('tags.id', $post->tags->pluck('id'));
-                          });
+                        ->orWhereHas('tags', function ($q) use ($post) {
+                            $q->whereIn('tags.id', $post->tags->pluck('id'));
+                        });
                 })
                 ->with('category')
                 ->select('id', 'title', 'slug', 'published_at', 'cover_image', 'category_id')
@@ -106,7 +109,7 @@ class BlogController extends Controller
         $post = Post::published()->where('slug', $slug)->firstOrFail();
         $ip = $request->ip();
 
-        $alreadyLiked = \App\Models\PostLike::where('post_id', $post->id)
+        $alreadyLiked = PostLike::where('post_id', $post->id)
             ->where('ip_address', $ip)
             ->exists();
 
@@ -114,7 +117,7 @@ class BlogController extends Controller
             return back()->with('error', '您已经点赞过这篇文章了');
         }
 
-        \App\Models\PostLike::create([
+        PostLike::create([
             'post_id' => $post->id,
             'ip_address' => $ip,
             'user_agent' => substr($request->userAgent() ?? '', 0, 255),
@@ -125,7 +128,7 @@ class BlogController extends Controller
 
     public function category($slug)
     {
-        $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
+        $category = Category::where('slug', $slug)->firstOrFail();
         $page = request('page', 1);
         $posts = Cache::tags(['posts'])->remember("posts:category:{$slug}:page:{$page}", 300, function () use ($category) {
             return Post::published()
@@ -136,8 +139,8 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        $categories = \App\Models\Category::withCount('posts')->get();
-        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $categories = Category::withCount('posts')->get();
+        $tags = Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
         $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
             return Post::published()
                 ->orderBy('views', 'desc')
@@ -151,7 +154,7 @@ class BlogController extends Controller
 
     public function tag($slug)
     {
-        $tag = \App\Models\Tag::where('slug', $slug)->firstOrFail();
+        $tag = Tag::where('slug', $slug)->firstOrFail();
         $page = request('page', 1);
         $posts = Cache::tags(['posts'])->remember("posts:tag:{$slug}:page:{$page}", 300, function () use ($tag) {
             return $tag->posts()
@@ -162,8 +165,8 @@ class BlogController extends Controller
                 ->paginate(10);
         });
 
-        $categories = \App\Models\Category::withCount('posts')->get();
-        $tags = \App\Models\Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
+        $categories = Category::withCount('posts')->get();
+        $tags = Tag::withCount('posts')->orderByDesc('posts_count')->limit(20)->get();
         $popularPosts = Cache::tags(['posts'])->remember('posts:popular', 600, function () {
             return Post::published()
                 ->orderBy('views', 'desc')
@@ -202,9 +205,9 @@ class BlogController extends Controller
             $posts = $query
                 ->where(function ($q) use ($keyword) {
                     $q->where('title', 'like', "%{$keyword}%")
-                          ->orWhere('content', 'like', "%{$keyword}%")
-                          ->orWhere('excerpt', 'like', "%{$keyword}%")
-                          ->orWhere('slug', 'like', "%{$keyword}%");
+                        ->orWhere('content', 'like', "%{$keyword}%")
+                        ->orWhere('excerpt', 'like', "%{$keyword}%")
+                        ->orWhere('slug', 'like', "%{$keyword}%");
                 })
                 ->limit(10)
                 ->get();
@@ -215,7 +218,7 @@ class BlogController extends Controller
                 'slug' => $post->slug,
                 'title' => $this->highlight($post->title, $keyword),
                 'excerpt' => $this->highlight($this->getExcerpt($post, $keyword), $keyword),
-                'cover_image' => $post->cover_image ? asset('storage/' . $post->cover_image) : null,
+                'cover_image' => $post->cover_image ? asset('storage/'.$post->cover_image) : null,
                 'published_at' => $post->published_at->format('Y-m-d'),
                 'category_name' => $post->category->name,
                 'category_slug' => $post->category->slug,
@@ -228,6 +231,7 @@ class BlogController extends Controller
     private function highlight(string $text, string $keyword): string
     {
         $escaped = preg_quote($keyword, '/');
+
         return preg_replace("/({$escaped})/iu", '<mark class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-semibold px-1 rounded">$1</mark>', e($text));
     }
 
@@ -236,10 +240,11 @@ class BlogController extends Controller
         $text = $post->excerpt ?: strip_tags($post->content);
         $pos = mb_stripos($text, $keyword);
         if ($pos === false) {
-            return mb_substr($text, 0, 120) . (mb_strlen($text) > 120 ? '...' : '');
+            return mb_substr($text, 0, 120).(mb_strlen($text) > 120 ? '...' : '');
         }
         $start = max(0, $pos - 50);
         $excerpt = mb_substr($text, $start, 160);
-        return ($start > 0 ? '...' : '') . $excerpt . (mb_strlen($text) > $start + 160 ? '...' : '');
+
+        return ($start > 0 ? '...' : '').$excerpt.(mb_strlen($text) > $start + 160 ? '...' : '');
     }
 }

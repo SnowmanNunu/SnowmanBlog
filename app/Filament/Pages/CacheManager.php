@@ -2,9 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Actions\Action;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Section;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Artisan;
@@ -13,9 +10,13 @@ use Illuminate\Support\Facades\Cache;
 class CacheManager extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-bolt';
+
     protected static ?string $navigationLabel = '缓存管理';
+
     protected static ?string $title = '缓存管理';
+
     protected static ?string $slug = 'cache-manager';
+
     protected static string $view = 'filament.pages.cache-manager';
 
     public array $selectedCaches = [];
@@ -57,6 +58,7 @@ class CacheManager extends Page
                 ->warning()
                 ->title('请先选择要清除的缓存类型')
                 ->send();
+
             return;
         }
 
@@ -71,7 +73,7 @@ class CacheManager extends Page
         Notification::make()
             ->success()
             ->title('已清除选中的缓存')
-            ->body('共清除 ' . count($this->selectedCaches) . ' 个缓存分组')
+            ->body('共清除 '.count($this->selectedCaches).' 个缓存分组')
             ->send();
 
         $this->selectedCaches = [];

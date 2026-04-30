@@ -10,6 +10,7 @@ class GuestbookController extends Controller
     public function index()
     {
         $messages = Guestbook::approved()->recent()->paginate(10);
+
         return view('guestbook.index', compact('messages'));
     }
 
@@ -42,6 +43,7 @@ class GuestbookController extends Controller
         ]);
 
         $message = $isAdmin ? '留言已发布！' : '留言提交成功，等待审核！';
+
         return back()->with('success', $message);
     }
 

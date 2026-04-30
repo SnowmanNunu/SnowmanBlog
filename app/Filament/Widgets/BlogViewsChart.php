@@ -2,13 +2,14 @@
 
 namespace App\Filament\Widgets;
 
-use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class BlogViewsChart extends ChartWidget
 {
     protected static ?string $heading = '最近30天浏览量趋势';
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     protected function getData(): array
     {

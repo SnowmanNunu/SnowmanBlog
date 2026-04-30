@@ -14,9 +14,13 @@ use Filament\Tables\Table;
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+
     protected static ?string $navigationLabel = '评论管理';
+
     protected static ?string $modelLabel = '评论';
+
     protected static ?string $pluralModelLabel = '评论';
 
     public static function form(Form $form): Form

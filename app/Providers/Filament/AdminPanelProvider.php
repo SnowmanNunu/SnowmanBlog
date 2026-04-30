@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\CacheManager;
+use App\Filament\Widgets\BlogViewsChart;
+use App\Filament\Widgets\LatestPendingReviews;
+use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,13 +39,13 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
-                \App\Filament\Pages\CacheManager::class,
+                CacheManager::class,
             ])
             ->widgets([
                 Widgets\AccountWidget::class,
-                \App\Filament\Widgets\StatsOverview::class,
-                \App\Filament\Widgets\BlogViewsChart::class,
-                \App\Filament\Widgets\LatestPendingReviews::class,
+                StatsOverview::class,
+                BlogViewsChart::class,
+                LatestPendingReviews::class,
             ])
             ->middleware([
                 EncryptCookies::class,

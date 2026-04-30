@@ -6,12 +6,12 @@ use App\Models\Post;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Support\Facades\Cache;
 
 class PopularPostsWidget extends BaseWidget
 {
     protected static ?string $heading = '热门文章 TOP10';
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -29,7 +29,7 @@ class PopularPostsWidget extends BaseWidget
                     ->label('标题')
                     ->searchable()
                     ->limit(40)
-                    ->url(fn ($record) => '/blog/' . $record->slug)
+                    ->url(fn ($record) => '/blog/'.$record->slug)
                     ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('分类')

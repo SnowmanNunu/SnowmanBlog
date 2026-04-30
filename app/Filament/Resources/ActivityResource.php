@@ -13,10 +13,15 @@ use Spatie\Activitylog\Models\Activity;
 class ActivityResource extends Resource
 {
     protected static ?string $model = Activity::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+
     protected static ?string $navigationLabel = '操作日志';
+
     protected static ?string $modelLabel = '操作日志';
+
     protected static ?string $pluralModelLabel = '操作日志';
+
     protected static ?int $navigationSort = 99;
 
     public static function form(Form $form): Form
@@ -88,9 +93,12 @@ class ActivityResource extends Resource
                 Tables\Columns\TextColumn::make('subject_type')
                     ->label('对象')
                     ->formatStateUsing(function ($state, $record) {
-                        if (!$state) return '-';
+                        if (! $state) {
+                            return '-';
+                        }
                         $short = class_basename($state);
-                        return $short . ($record->subject_id ? ' #' . $record->subject_id : '');
+
+                        return $short.($record->subject_id ? ' #'.$record->subject_id : '');
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('causer.name')
