@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GuestbookController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\SitemapController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'index'])->name('blog.index');
@@ -27,3 +28,11 @@ Route::post('/post/{slug}/like', [BlogController::class, 'like'])->name('blog.li
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('throttle:3,1');
+
+Route::get('/backups/download', function (Request $request) {
+    $name = $request->query('name');
+    $path = storage_path('app/backups/'.basename($name));
+    abort_if(! file_exists($path) || ! auth()->check(), 404);
+
+    return response()->download($path);
+})->middleware('auth')->name('backup.download');

@@ -9,3 +9,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('posts:publish-scheduled')->everyMinute();
+
+Schedule::command('backup:database')->daily();

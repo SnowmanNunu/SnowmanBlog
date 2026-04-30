@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\BackupManager;
 use App\Filament\Pages\CacheManager;
 use App\Filament\Widgets\BlogViewsChart;
 use App\Filament\Widgets\LatestPendingReviews;
@@ -40,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
                 CacheManager::class,
+                BackupManager::class,
             ])
             ->widgets([
                 Widgets\AccountWidget::class,
