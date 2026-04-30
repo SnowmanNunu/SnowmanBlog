@@ -2,6 +2,14 @@
 
 ## 版本历史
 
+### v1.7.0 (2026-04-30)
+- Docker 支持：PHP 8.2-FPM + Nginx + MySQL + Redis + Supervisor（含定时任务队列）
+- 自动化测试：Feature 测试覆盖前端、后台、认证等核心流程
+- GitHub Actions CI：自动运行 PHPUnit + Laravel Pint 代码风格检查
+- 贡献者文档：CONTRIBUTING.md、CHANGELOG.md、Issue/PR 模板
+- 数据库自动备份：每日凌晨自动 mysqldump，保留 30 天自动清理
+- 后台备份管理：Filament 页面支持手动备份、列表查看、下载、删除
+
 ### v1.6.12 (2026-04-29)
 - 首页新增开源项目入口（Gitee、GitHub），带品牌 Logo 与跳转链接
 
@@ -140,6 +148,11 @@
 - [x] 热门文章排行榜
 - [x] 图片灯箱放大
 
-## 长期目标（待开发）
+## 长期目标（已完成 / 进行中）
+- [x] Docker 支持（Dockerfile + docker-compose.yml + Nginx + PHP-FPM + MySQL + Redis + Scheduler）
+- [x] 自动化测试与 CI/CD（PHPUnit + GitHub Actions + Laravel Pint 代码风格检查）
+- [x] 贡献者友好文档（CONTRIBUTING.md + CHANGELOG.md + Issue/PR 模板）
+- [x] 数据库自动备份（Artisan 命令 + 每日定时任务 + 30 天自动清理）
+- [x] 后台备份管理（Filament 页面：手动备份、备份列表、下载、删除）
 - [ ] API 接口开发
 - [ ] 内容导入导出（Markdown / WordPress）

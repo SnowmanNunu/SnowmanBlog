@@ -36,4 +36,3 @@ Route::get('/backups/download', function (Request $request) {
 
     return response()->download($path);
 })->middleware('auth')->name('backup.download');
-Route::get('/test-debug', fn () => 'hello from web');
