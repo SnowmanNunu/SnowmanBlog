@@ -69,11 +69,12 @@ class PostResource extends Resource
                     ->required()
                     ->label('内容')
                     ->columnSpanFull()
-                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDisk(config('filesystems.media_disk', 'public'))
                     ->fileAttachmentsDirectory('attachments')
                     ->hint('图片建议不超过 10MB'),
                 Forms\Components\FileUpload::make('cover_image')
                     ->label('封面图')
+                    ->disk(config('filesystems.media_disk', 'public'))
                     ->image()
                     ->maxSize(10240)
                     ->imageResizeTargetWidth(1200)

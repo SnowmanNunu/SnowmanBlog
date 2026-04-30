@@ -3,16 +3,23 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "aws/aws-sdk-php": "^3.0",
         "filament/filament": "3.3",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "league/commonmark": "^2.8",
         "mews/purifier": "^3.4",
-        "spatie/laravel-activitylog": "^4.12"
+        "overtrue/flysystem-cos": "^5.0",
+        "overtrue/flysystem-qiniu": "^3.0",
+        "spatie/laravel-activitylog": "^4.12",
+        "xxtime/flysystem-aliyun-oss": "^1.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -28,7 +35,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

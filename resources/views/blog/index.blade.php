@@ -39,7 +39,7 @@
         @forelse($posts as $post)
             <article class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 @if($post->cover_image)
-                    <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy">
+                    <img src="{{ media_url($post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy">
                 @endif
                 <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
                     @if($post->is_pinned)
@@ -127,7 +127,7 @@
                     <li>
                         <a href="{{ route('blog.show', $pp->slug) }}" class="group flex items-start gap-3">
                             @if($pp->cover_image)
-                            <img src="{{ asset('storage/' . $pp->cover_image) }}" alt="{{ $pp->title }}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" loading="lazy">
+                            <img src="{{ media_url($pp->cover_image) }}" alt="{{ $pp->title }}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" loading="lazy">
                             @endif
                             <div class="min-w-0">
                                 <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $pp->title }}</h4>

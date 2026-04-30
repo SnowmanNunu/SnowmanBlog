@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Media Disk
+    |--------------------------------------------------------------------------
+    |
+    | The media disk is used for all user-uploaded files (cover images,
+    | post attachments, etc.). It can point to any configured disk below
+    | via the MEDIA_DISK environment variable.
+    |
+    | Supported: public, s3, oss, cos, qiniu
+    |
+    */
+    'media_disk' => env('MEDIA_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -58,6 +72,41 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        'oss' => [
+            'driver' => 'oss',
+            'access_id' => env('OSS_ACCESS_KEY_ID'),
+            'access_secret' => env('OSS_ACCESS_KEY_SECRET'),
+            'bucket' => env('OSS_BUCKET'),
+            'endpoint' => env('OSS_ENDPOINT'),
+            'cdn_domain' => env('OSS_CDN_DOMAIN'),
+            'is_cname' => env('OSS_IS_CNAME', false),
+            'prefix' => env('OSS_PREFIX', ''),
+        ],
+
+        'cos' => [
+            'driver' => 'cos',
+            'region' => env('COS_REGION'),
+            'credentials' => [
+                'secret_id' => env('COS_SECRET_ID'),
+                'secret_key' => env('COS_SECRET_KEY'),
+            ],
+            'bucket' => env('COS_BUCKET'),
+            'cdn' => env('COS_CDN'),
+            'signed_url' => false,
+            'guzzle' => [
+                'timeout' => 60,
+                'connect_timeout' => 60,
+            ],
+        ],
+
+        'qiniu' => [
+            'driver' => 'qiniu',
+            'access_key' => env('QINIU_ACCESS_KEY'),
+            'secret_key' => env('QINIU_SECRET_KEY'),
+            'bucket' => env('QINIU_BUCKET'),
+            'domain' => env('QINIU_DOMAIN'),
         ],
 
     ],

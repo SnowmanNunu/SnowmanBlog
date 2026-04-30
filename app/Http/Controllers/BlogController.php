@@ -218,7 +218,7 @@ class BlogController extends Controller
                 'slug' => $post->slug,
                 'title' => $this->highlight($post->title, $keyword),
                 'excerpt' => $this->highlight($this->getExcerpt($post, $keyword), $keyword),
-                'cover_image' => $post->cover_image ? asset('storage/'.$post->cover_image) : null,
+                'cover_image' => $post->cover_image ? media_url($post->cover_image) : null,
                 'published_at' => $post->published_at->format('Y-m-d'),
                 'category_name' => $post->category->name,
                 'category_slug' => $post->category->slug,

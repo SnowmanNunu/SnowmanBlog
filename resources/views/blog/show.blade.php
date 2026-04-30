@@ -8,7 +8,7 @@
 @section('og_description', $post->meta_description ?: ($post->excerpt ? strip_tags($post->excerpt) : ''))
 @section('og_type', 'article')
 @if($post->cover_image)
-@section('og_image', asset('storage/' . $post->cover_image))
+@section('og_image', media_url($post->cover_image))
 @endif
 
 @php
@@ -30,7 +30,7 @@ $jsonLd = [
     ],
 ];
 if ($post->cover_image) {
-    $jsonLd['image'] = asset('storage/' . $post->cover_image);
+    $jsonLd['image'] = media_url($post->cover_image);
 }
 @endphp
 @php
@@ -102,7 +102,7 @@ $breadcrumbLd = [
     <div class="lg:col-span-3">
         <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
             @if($post->cover_image)
-                <img src="{{ asset('storage/' . $post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6" loading="lazy">
+                <img src="{{ media_url($post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6" loading="lazy">
             @endif
 
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{ $post->title }}</h1>
@@ -228,7 +228,7 @@ $breadcrumbLd = [
                 <a href="{{ route('blog.show', $related->slug) }}" class="group block bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all">
                     @if($related->cover_image)
                     <div class="h-32 overflow-hidden">
-                        <img src="{{ asset('storage/' . $related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                        <img src="{{ media_url($related->cover_image) }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
                     </div>
                     @endif
                     <div class="p-4">
@@ -260,7 +260,7 @@ $breadcrumbLd = [
                 <li>
                     <a href="{{ route('blog.show', $pp->slug) }}" class="group flex items-start gap-3">
                         @if($pp->cover_image)
-                        <img src="{{ asset('storage/' . $pp->cover_image) }}" alt="{{ $pp->title }}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" loading="lazy">
+                        <img src="{{ media_url($pp->cover_image) }}" alt="{{ $pp->title }}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" loading="lazy">
                         @endif
                         <div class="min-w-0">
                             <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $pp->title }}</h4>
