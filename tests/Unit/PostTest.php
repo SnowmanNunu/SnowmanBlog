@@ -31,8 +31,9 @@ class PostTest extends TestCase
     {
         $category = Category::factory()->create();
         $post = Post::factory()->create(['category_id' => $category->id]);
+        $post->load('category');
 
-        $this->assertInstanceOf(Category::class, $post->fresh()->category);
+        $this->assertInstanceOf(Category::class, $post->category);
         $this->assertEquals($category->id, $post->category->id);
     }
 
@@ -40,8 +41,9 @@ class PostTest extends TestCase
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
+        $post->load('user');
 
-        $this->assertInstanceOf(User::class, $post->fresh()->user);
+        $this->assertInstanceOf(User::class, $post->user);
         $this->assertEquals($user->id, $post->user->id);
     }
 

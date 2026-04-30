@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
@@ -13,6 +15,9 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
+/**
+ * @property-read Form $form
+ */
 class StorageSettings extends Page implements HasForms
 {
     use InteractsWithForms;

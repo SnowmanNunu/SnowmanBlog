@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
+use App\Models\Guestbook;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Guestbook>
+ */
 class GuestbookFactory extends Factory
 {
     public function definition(): array

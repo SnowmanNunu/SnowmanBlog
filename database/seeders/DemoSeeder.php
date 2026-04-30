@@ -182,11 +182,11 @@ class DemoSeeder extends Seeder
                     'published_at' => now()->subDays($index + 1),
                     'meta_title' => $data['title'],
                     'meta_description' => $data['excerpt'],
-                    'meta_keywords' => implode(', ', $data['tag_slugs'] ?? []),
+                    'meta_keywords' => implode(', ', $data['tag_slugs']),
                 ]
             );
 
-            $postTagIds = $tags->whereIn('name', $data['tag_slugs'] ?? [])->pluck('id');
+            $postTagIds = $tags->whereIn('name', $data['tag_slugs'])->pluck('id');
             if ($postTagIds->isNotEmpty()) {
                 $post->tags()->sync($postTagIds);
             }

@@ -77,7 +77,7 @@ class PostResource extends Resource
                     ->disk(config('filesystems.media_disk', 'public'))
                     ->image()
                     ->maxSize(10240)
-                    ->imageResizeTargetWidth(1200)
+                    ->imageResizeTargetWidth('1200')
                     ->columnSpanFull(),
                 Forms\Components\Grid::make(3)
                     ->schema([

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
@@ -48,7 +50,7 @@ class BlogController extends Controller
             $ip = $request->ip();
             $today = now()->toDateString();
 
-            $alreadyViewed = \DB::table('post_views')
+            $alreadyViewed = DB::table('post_views')
                 ->where('post_id', $post->id)
                 ->where('ip_address', $ip)
                 ->whereDate('viewed_at', $today)
@@ -56,7 +58,7 @@ class BlogController extends Controller
 
             if (! $alreadyViewed) {
                 $post->increment('views');
-                \DB::table('post_views')->insert([
+                DB::table('post_views')->insert([
                     'post_id' => $post->id,
                     'ip_address' => $ip,
                     'user_agent' => substr($request->userAgent() ?? '', 0, 255),
@@ -157,8 +159,8 @@ class BlogController extends Controller
         $tag = Tag::where('slug', $slug)->firstOrFail();
         $page = request('page', 1);
         $posts = Cache::tags(['posts'])->remember("posts:tag:{$slug}:page:{$page}", 300, function () use ($tag) {
-            return $tag->posts()
-                ->published()
+            return Post::published()
+                ->whereHas('tags', fn ($query) => $query->where('tags.id', $tag->id))
                 ->with(['category', 'user'])
                 ->orderByDesc('is_pinned')
                 ->latest('published_at')

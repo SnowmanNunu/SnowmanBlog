@@ -9,9 +9,3 @@ parameters:
         - tests
 
     level: 5
-
-    ignoreErrors:
-        -
-            message: '#Unsafe usage of new static#'
-            paths:
-                - app/Models/Setting.php
