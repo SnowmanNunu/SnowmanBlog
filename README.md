@@ -5,6 +5,9 @@
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D8.2-777BB4?logo=php)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel)](https://laravel.com)
 [![Filament Version](https://img.shields.io/badge/Filament-v3-FDA4AF)](https://filamentphp.com)
+[![CI](https://github.com/SnowmanNunu/SnowmanBlog/actions/workflows/ci.yml/badge.svg)](https://github.com/SnowmanNunu/SnowmanBlog/actions/workflows/ci.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-Level%205-blue)](phpstan.neon)
+[![Laravel Pint](https://img.shields.io/badge/Code%20Style-Laravel%20Pint-ffa733)](https://laravel.com/docs/12.x/pint)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## 在线预览
