@@ -34,6 +34,10 @@ class CategoryResource extends Resource
                     ->label('别名')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Toggle::make('is_project')
+                    ->label('项目展示分类')
+                    ->helperText('开启后，该分类下的文章将以项目卡片形式展示')
+                    ->default(false),
                 Forms\Components\Textarea::make('description')
                     ->label('描述')
                     ->columnSpanFull(),
@@ -50,6 +54,9 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
                     ->label('别名')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('is_project')
+                    ->label('项目展示')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->dateTime()
@@ -62,7 +69,8 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_project')
+                    ->label('项目展示分类'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label('编辑'),

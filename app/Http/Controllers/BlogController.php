@@ -131,6 +131,20 @@ class BlogController extends Controller
     public function category($slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
+
+        if ($category->is_project) {
+            $posts = Cache::tags(['posts'])->remember("posts:project:{$slug}", 300, function () use ($category) {
+                return Post::published()
+                    ->where('category_id', $category->id)
+                    ->with(['category', 'user', 'tags'])
+                    ->orderByDesc('is_pinned')
+                    ->latest('published_at')
+                    ->get();
+            });
+
+            return view('blog.projects', compact('category', 'posts'));
+        }
+
         $page = request('page', 1);
         $posts = Cache::tags(['posts'])->remember("posts:category:{$slug}:page:{$page}", 300, function () use ($category) {
             return Post::published()

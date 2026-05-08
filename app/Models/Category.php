@@ -10,7 +10,11 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description', 'is_project'];
+
+    protected $casts = [
+        'is_project' => 'boolean',
+    ];
 
     public function posts(): HasMany
     {
