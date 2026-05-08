@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "snowmannunu/snowman-blog",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "An open-source personal blog built with Laravel 12 and Filament v3.",
     "keywords": [
         "laravel",
         "framework"
