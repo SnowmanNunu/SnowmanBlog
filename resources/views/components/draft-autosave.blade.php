@@ -1,5 +1,5 @@
 <div x-data="{
-    key: 'snowmanblog_post_draft_{{ request()->route('record') ? 'edit_' . request()->route('record')->id : 'create' }}',
+    key: 'snowmanblog_post_draft_{{ request()->route('record') ? 'edit_' . request()->route('record') : 'create' }}',
     hasDraft: false,
     init() {
         const draft = localStorage.getItem(this.key);
