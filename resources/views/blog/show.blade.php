@@ -367,10 +367,10 @@ hljs.highlightAll();
         button.addEventListener('click', function() {
             copyText(codeEl.innerText).then(function() {
                 button.textContent = '{{ __('Copied') }}';
-                setTimeout(function() { button.textContent = '复制'; }, 2000);
+                setTimeout(function() { button.textContent = '{{ __('Copy') }}'; }, 2000);
             }).catch(function() {
                 button.textContent = '{{ __('Failed') }}';
-                setTimeout(function() { button.textContent = '复制'; }, 2000);
+                setTimeout(function() { button.textContent = '{{ __('Copy') }}'; }, 2000);
             });
         });
         pre.appendChild(button);

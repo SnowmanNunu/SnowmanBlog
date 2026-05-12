@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Mail\NewPostNotification;
 
 class Post extends Model
 {
@@ -33,7 +35,7 @@ class Post extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => "文章已{$eventName}")
+            ->setDescriptionForEvent(fn (string $eventName) => 文章已{$eventName})
             ->useLogName('post');
     }
 
@@ -41,6 +43,14 @@ class Post extends Model
     {
         static::saved(function (Post $post) {
             Cache::tags(['posts'])->flush();
+
+            if ($post->wasRecentlyCreated && $post->is_published && $post->published_at <= now()) {
+                Subscriber::verified()->chunk(100, function ($subscribers) use ($post) {
+                    foreach ($subscribers as $subscriber) {
+                        Mail::to($subscriber->email)->send(new NewPostNotification($post, $subscriber));
+                    }
+                });
+            }
         });
 
         static::deleted(function (Post $post) {

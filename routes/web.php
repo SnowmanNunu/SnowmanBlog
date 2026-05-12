@@ -29,6 +29,9 @@ Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('throttle:3,1');
 
+Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.store')->middleware('throttle:3,1');
+Route::get('/unsubscribe/{token}', [SubscriptionController::class, 'destroy'])->name('subscribe.destroy');
+
 Route::get('/backups/download', function (Request $request) {
     $name = $request->query('name');
     $path = storage_path('app/backups/'.basename($name));
