@@ -9,39 +9,39 @@ use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
-    public function store(Request )
+    public function store(Request $request)
     {
-         = ->ip();
-         = 'subscribe:' . ;
+        $ip = $request->ip();
+        $key = 'subscribe:' . $ip;
 
-        if (RateLimiter::tooManyAttempts(, 3)) {
+        if (RateLimiter::tooManyAttempts($key, 3)) {
             return back()->with('error', __('Too many subscription attempts. Please try again later.'));
         }
 
-        ->validate([
+        $request->validate([
             'email' => 'required|email|max:255',
         ]);
 
-        RateLimiter::hit(, 3600);
+        RateLimiter::hit($key, 3600);
 
-         = ->input('email');
+        $email = $request->input('email');
 
-         = Subscriber::where('email', )->first();
+        $subscriber = Subscriber::where('email', $email)->first();
 
-        if () {
-            if (->isVerified()) {
+        if ($subscriber) {
+            if ($subscriber->isVerified()) {
                 return back()->with('info', __('You are already subscribed.'));
             }
-            ->update([
+            $subscriber->update([
                 'unsubscribe_token' => Str::random(32),
-                'ip' => ,
+                'ip' => $ip,
                 'verified_at' => now(),
             ]);
         } else {
-             = Subscriber::create([
-                'email' => ,
+            $subscriber = Subscriber::create([
+                'email' => $email,
                 'unsubscribe_token' => Str::random(32),
-                'ip' => ,
+                'ip' => $ip,
                 'verified_at' => now(),
             ]);
         }
@@ -49,15 +49,15 @@ class SubscriptionController extends Controller
         return back()->with('success', __('Thanks for subscribing! You will receive an email when new articles are published.'));
     }
 
-    public function destroy(Request , string )
+    public function destroy(Request $request, string $token)
     {
-         = Subscriber::where('unsubscribe_token', )->first();
+        $subscriber = Subscriber::where('unsubscribe_token', $token)->first();
 
-        if (! ) {
+        if (! $subscriber) {
             return redirect()->route('blog.index')->with('error', __('Invalid unsubscribe link.'));
         }
 
-        ->delete();
+        $subscriber->delete();
 
         return redirect()->route('blog.index')->with('success', __('You have been unsubscribed successfully.'));
     }
