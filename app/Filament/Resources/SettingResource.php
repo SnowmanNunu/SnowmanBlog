@@ -37,10 +37,28 @@ class SettingResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('配置名称'),
+                Forms\Components\Select::make('type')
+                    ->required()
+                    ->label('类型')
+                    ->options([
+                        'text' => '文本',
+                        'textarea' => '多行文本',
+                        'image' => '图片',
+                    ])
+                    ->default('text')
+                    ->live(),
                 Forms\Components\Textarea::make('value')
                     ->maxLength(65535)
                     ->label('配置值')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->hidden(fn (Forms\Get $get) => $get('type') === 'image'),
+                Forms\Components\FileUpload::make('value')
+                    ->label('图片')
+                    ->image()
+                    ->directory('settings')
+                    ->visibility('public')
+                    ->columnSpanFull()
+                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
             ]);
     }
 
@@ -58,6 +76,8 @@ class SettingResource extends Resource
                 Tables\Columns\TextColumn::make('key')
                     ->searchable()
                     ->label('键名'),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('类型'),
             ])
             ->filters([])
             ->actions([

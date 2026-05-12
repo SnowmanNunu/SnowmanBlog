@@ -52,8 +52,12 @@
             <div class="flex justify-between h-16 items-center">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('blog.index') }}" class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
-                        {{ $siteTitle }}
+                    <a href="{{ route('blog.index') }}" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                        @if(\App\Models\Setting::get('site_logo'))
+                            <img src="{{ asset(\App\Models\Setting::get('site_logo')) }}" alt="{{ $siteTitle }}" class="h-8 w-auto rounded">
+                        @else
+                            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{{ $siteTitle }}</span>
+                        @endif
                     </a>
                 </div>
 
