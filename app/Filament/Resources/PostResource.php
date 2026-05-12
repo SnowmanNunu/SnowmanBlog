@@ -18,6 +18,8 @@ class PostResource extends Resource
 
     protected static ?string $navigationLabel = '文章管理';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '文章';
 
     protected static ?string $pluralModelLabel = '文章';

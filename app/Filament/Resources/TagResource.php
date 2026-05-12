@@ -18,6 +18,8 @@ class TagResource extends Resource
 
     protected static ?string $navigationLabel = '标签管理';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '标签';
 
     protected static ?string $pluralModelLabel = '标签';

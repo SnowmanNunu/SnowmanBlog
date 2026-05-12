@@ -18,6 +18,8 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationLabel = '分类管理';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '分类';
 
     protected static ?string $pluralModelLabel = '分类';

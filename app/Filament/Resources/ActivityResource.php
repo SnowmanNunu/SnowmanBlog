@@ -18,6 +18,8 @@ class ActivityResource extends Resource
 
     protected static ?string $navigationLabel = '操作日志';
 
+    protected static ?string $navigationGroup = '日志审计';
+
     protected static ?string $modelLabel = '操作日志';
 
     protected static ?string $pluralModelLabel = '操作日志';

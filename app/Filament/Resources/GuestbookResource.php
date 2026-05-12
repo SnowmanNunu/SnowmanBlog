@@ -19,6 +19,8 @@ class GuestbookResource extends Resource
 
     protected static ?string $navigationLabel = '留言管理';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '留言';
 
     protected static ?string $pluralModelLabel = '留言';

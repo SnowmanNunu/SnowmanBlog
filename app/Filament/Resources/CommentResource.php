@@ -19,6 +19,8 @@ class CommentResource extends Resource
 
     protected static ?string $navigationLabel = '评论管理';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '评论';
 
     protected static ?string $pluralModelLabel = '评论';

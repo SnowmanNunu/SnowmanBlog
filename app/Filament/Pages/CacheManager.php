@@ -13,6 +13,8 @@ class CacheManager extends Page
 
     protected static ?string $navigationLabel = '缓存管理';
 
+    protected static ?string $navigationGroup = '运维工具';
+
     protected static ?string $title = '缓存管理';
 
     protected static ?string $slug = 'cache-manager';

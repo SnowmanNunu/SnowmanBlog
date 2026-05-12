@@ -13,6 +13,8 @@ class BackupManager extends Page
 
     protected static ?string $navigationLabel = '备份管理';
 
+    protected static ?string $navigationGroup = '运维工具';
+
     protected static ?string $title = '数据库备份管理';
 
     protected static ?string $slug = 'backup-manager';

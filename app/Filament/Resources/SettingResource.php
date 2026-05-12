@@ -18,6 +18,8 @@ class SettingResource extends Resource
 
     protected static ?string $navigationLabel = '网站配置';
 
+    protected static ?string $navigationGroup = '系统设置';
+
     protected static ?string $modelLabel = '配置项';
 
     protected static ?string $pluralModelLabel = '配置项';

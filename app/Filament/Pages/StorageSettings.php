@@ -26,6 +26,8 @@ class StorageSettings extends Page implements HasForms
 
     protected static ?string $navigationLabel = '存储设置';
 
+    protected static ?string $navigationGroup = '系统设置';
+
     protected static ?string $title = '云存储设置';
 
     protected static ?string $slug = 'storage-settings';

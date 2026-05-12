@@ -18,6 +18,8 @@ class LinkResource extends Resource
 
     protected static ?string $navigationLabel = '友情链接';
 
+    protected static ?string $navigationGroup = '内容管理';
+
     protected static ?string $modelLabel = '友情链接';
 
     protected static ?string $pluralModelLabel = '友情链接';
