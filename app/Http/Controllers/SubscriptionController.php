@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         $ip = $request->ip();
-        $key = 'subscribe:' . $ip;
+        $key = 'subscribe:'.$ip;
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             return back()->with('error', __('Too many subscription attempts. Please try again later.'));

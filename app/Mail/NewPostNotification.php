@@ -23,7 +23,7 @@ class NewPostNotification extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->post->title . ' — ' . config('app.name'),
+            subject: $this->post->title.' — '.config('app.name'),
         );
     }
 

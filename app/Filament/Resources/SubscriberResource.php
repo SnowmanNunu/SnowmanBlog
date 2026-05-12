@@ -13,10 +13,15 @@ use Filament\Tables\Table;
 class SubscriberResource extends Resource
 {
     protected static ?string $model = Subscriber::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
+
     protected static ?string $navigationLabel = '邮件订阅';
+
     protected static ?string $modelLabel = '订阅者';
+
     protected static ?string $pluralModelLabel = '订阅者';
+
     protected static ?string $navigationGroup = '内容管理';
 
     public static function form(Form $form): Form
