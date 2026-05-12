@@ -17,6 +17,7 @@
     <meta name="description" content="@yield('meta_description', $siteDescription)">
     <meta name="keywords" content="@yield('meta_keywords', '')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="icon" type="image/x-icon" href="{{ asset(\App\Models\Setting::get('site_logo', 'images/logo.jpg')) }}">
 
     <!-- Open Graph -->
     <meta property="og:title" content="@yield('og_title', $siteTitle . ' - ' . $siteDescription)">

@@ -51,14 +51,17 @@ class SettingResource extends Resource
                     ->maxLength(65535)
                     ->label('配置值')
                     ->columnSpanFull()
-                    ->hidden(fn (Forms\Get $get) => $get('type') === 'image'),
+                    ->hidden(fn (Forms\Get $get) => $get('type') === 'image')
+                    ->dehydrated(fn (Forms\Get $get) => $get('type') !== 'image'),
                 Forms\Components\FileUpload::make('value')
                     ->label('图片')
                     ->image()
+                    ->disk('public')
                     ->directory('settings')
                     ->visibility('public')
                     ->columnSpanFull()
-                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
+                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'image')
+                    ->dehydrated(fn (Forms\Get $get) => $get('type') === 'image'),
             ]);
     }
 
