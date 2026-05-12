@@ -9,54 +9,55 @@ use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request )
     {
-        $ip = $request->ip();
-        $key = 'subscribe:' . $ip;
+         = ->ip();
+         = 'subscribe:' . ;
 
-        if (RateLimiter::tooManyAttempts($key, 3)) {
+        if (RateLimiter::tooManyAttempts(, 3)) {
             return back()->with('error', __('Too many subscription attempts. Please try again later.'));
         }
 
-        $request->validate([
+        ->validate([
             'email' => 'required|email|max:255',
         ]);
 
-        RateLimiter::hit($key, 3600);
+        RateLimiter::hit(, 3600);
 
-        $email = $request->input('email');
+         = ->input('email');
 
-        $subscriber = Subscriber::where('email', $email)->first();
+         = Subscriber::where('email', )->first();
 
-        if ($subscriber) {
-            if ($subscriber->isVerified()) {
+        if () {
+            if (->isVerified()) {
                 return back()->with('info', __('You are already subscribed.'));
             }
-            // Re-generate token if not verified
-            $subscriber->update([
+            ->update([
                 'unsubscribe_token' => Str::random(32),
-                'ip' => $ip,
+                'ip' => ,
+                'verified_at' => now(),
             ]);
         } else {
-            $subscriber = Subscriber::create([
-                'email' => $email,
+             = Subscriber::create([
+                'email' => ,
                 'unsubscribe_token' => Str::random(32),
-                'ip' => $ip,
+                'ip' => ,
+                'verified_at' => now(),
             ]);
         }
 
         return back()->with('success', __('Thanks for subscribing! You will receive an email when new articles are published.'));
     }
 
-    public function destroy(Request $request, string $token)
+    public function destroy(Request , string )
     {
-        $subscriber = Subscriber::where('unsubscribe_token', $token)->first();
+         = Subscriber::where('unsubscribe_token', )->first();
 
-        if (! $subscriber) {
+        if (! ) {
             return redirect()->route('blog.index')->with('error', __('Invalid unsubscribe link.'));
         }
 
-        $subscriber->delete();
+        ->delete();
 
         return redirect()->route('blog.index')->with('success', __('You have been unsubscribed successfully.'));
     }
