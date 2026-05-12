@@ -116,6 +116,8 @@
             </div>
             @endif
 
+            @include('components.subscribe-form')
+
             @if(isset($popularPosts) && $popularPosts->count())
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-4 flex items-center gap-2">

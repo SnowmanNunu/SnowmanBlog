@@ -46,5 +46,13 @@
   "Copied": "已复制",
   "Failed": "失败",
   "Pinned": "置顶",
-  "No more": "没有了"
+  "No more": "没有了",
+  "Subscribe to updates": "订阅更新",
+  "Get notified when new articles are published.": "新文章发布时邮件通知你。",
+  "Subscribe": "订阅",
+  "You are already subscribed.": "你已经订阅过了。",
+  "Thanks for subscribing! You will receive an email when new articles are published.": "感谢订阅！新文章发布时你会收到邮件通知。",
+  "Too many subscription attempts. Please try again later.": "订阅尝试次数过多，请稍后再试。",
+  "Invalid unsubscribe link.": "无效的退订链接。",
+  "You have been unsubscribed successfully.": "退订成功。"
 }

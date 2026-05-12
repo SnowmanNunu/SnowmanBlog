@@ -46,5 +46,13 @@
   "Copied": "Copied",
   "Failed": "Failed",
   "Pinned": "Pinned",
-  "No more": "No more"
+  "No more": "No more",
+  "Subscribe to updates": "Subscribe to updates",
+  "Get notified when new articles are published.": "Get notified when new articles are published.",
+  "Subscribe": "Subscribe",
+  "You are already subscribed.": "You are already subscribed.",
+  "Thanks for subscribing! You will receive an email when new articles are published.": "Thanks for subscribing! You will receive an email when new articles are published.",
+  "Too many subscription attempts. Please try again later.": "Too many subscription attempts. Please try again later.",
+  "Invalid unsubscribe link.": "Invalid unsubscribe link.",
+  "You have been unsubscribed successfully.": "You have been unsubscribed successfully."
 }

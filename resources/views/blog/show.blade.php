@@ -252,6 +252,8 @@ $breadcrumbLd = [
             <ul id="toc-list" class="space-y-1 text-sm border-l-2 border-gray-100 dark:border-gray-700 pl-3"></ul>
         </div>
 
+        @include('components.subscribe-form')
+
         @if($popularPosts->count() > 0)
         <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
             <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">{{ __('Popular articles') }}</h3>

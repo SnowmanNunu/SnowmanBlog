@@ -35,7 +35,7 @@ class Post extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => 文章已{$eventName})
+            ->setDescriptionForEvent(fn (string $eventName) => "文章已{$eventName}")
             ->useLogName('post');
     }
 
