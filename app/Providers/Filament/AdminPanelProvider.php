@@ -34,8 +34,18 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
+            ->brandName('SnowmanNunu')
+            ->brandLogo(asset('images/logo.jpg'))
+            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('images/logo.jpg'))
+            ->darkMode(true)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
+                'danger' => Color::Rose,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
+                'info' => Color::Sky,
+                'gray' => Color::Slate,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->pages([
@@ -50,6 +60,10 @@ class AdminPanelProvider extends PanelProvider
                 BlogViewsChart::class,
                 LatestPendingReviews::class,
             ])
+            ->spa()
+            ->sidebarCollapsibleOnDesktop()
+            ->unsavedChangesAlerts()
+            ->breadcrumbs()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
