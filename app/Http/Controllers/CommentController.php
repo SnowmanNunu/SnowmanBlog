@@ -41,6 +41,7 @@ class CommentController extends Controller
             'post_id' => $post->id,
             'ip' => $request->ip(),
             'is_approved' => $isAdmin,
+            'is_admin' => $isAdmin,
         ]);
 
         // 通知被回复的评论者

@@ -60,6 +60,9 @@
                                 @else
                                     {{ $msg->nickname }}
                                 @endif
+                                @if($msg->is_admin)
+                                    <span class="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded ml-1">博主</span>
+                                @endif
                             </div>
                             <div class="text-sm text-gray-500 dark:text-gray-400">{{ $msg->created_at->format('Y-m-d H:i') }}</div>
                         </div>

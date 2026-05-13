@@ -34,6 +34,10 @@ class PostResource extends Resource
                     ->relationship('category', 'name')
                     ->required()
                     ->label('分类'),
+                Forms\Components\Select::make('series_id')
+                    ->relationship('series', 'name')
+                    ->nullable()
+                    ->label('专栏'),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required()
@@ -105,6 +109,10 @@ class PostResource extends Resource
                     ->label('分类')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('series.name')
+                    ->label('专栏')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('作者')
                     ->numeric()
@@ -142,16 +150,26 @@ class PostResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('删除时间')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make()->label('回收站'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label('编辑'),
+                Tables\Actions\RestoreAction::make()->label('恢复'),
+                Tables\Actions\ForceDeleteAction::make()->label('彻底删除'),
+                Tables\Actions\DeleteAction::make()->label('删除'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\RestoreBulkAction::make()->label('批量恢复'),
                     Tables\Actions\DeleteBulkAction::make()->label('删除'),
+                    Tables\Actions\ForceDeleteBulkAction::make()->label('彻底删除'),
                 ])->label('批量操作'),
             ]);
     }

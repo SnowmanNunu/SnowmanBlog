@@ -35,6 +35,7 @@ class CommentResource extends Resource
                 Forms\Components\TextInput::make('website')->url()->label('网站'),
                 Forms\Components\Textarea::make('content')->required()->label('内容'),
                 Forms\Components\Toggle::make('is_approved')->label('审核通过'),
+                Forms\Components\Toggle::make('is_admin')->label('博主回复'),
             ]);
     }
 
@@ -46,10 +47,12 @@ class CommentResource extends Resource
                 Tables\Columns\TextColumn::make('nickname')->searchable()->label('昵称'),
                 Tables\Columns\TextColumn::make('content')->limit(50)->label('内容'),
                 Tables\Columns\IconColumn::make('is_approved')->boolean()->label('已审核')->sortable(),
+                Tables\Columns\IconColumn::make('is_admin')->boolean()->label('博主')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->label('时间')->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_approved')->label('审核状态'),
+                Tables\Filters\TernaryFilter::make('is_admin')->label('博主回复'),
             ])
             ->actions([
                 Tables\Actions\Action::make('toggleApprove')

@@ -113,6 +113,10 @@ $breadcrumbLd = [
                 <span>{{ $post->published_at->format('Y-m-d H:i') }}</span>
                 <span class="text-gray-300 dark:text-gray-600">·</span>
                 <a href="{{ route('blog.category', $post->category->slug) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">{{ $post->category->name }}</a>
+                @if($post->series)
+                <span class="text-gray-300 dark:text-gray-600">·</span>
+                <a href="{{ route('series.show', $post->series->slug) }}" class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">{{ $post->series->name }}</a>
+                @endif
                 <span class="text-gray-300 dark:text-gray-600">·</span>
                 <span class="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

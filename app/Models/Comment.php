@@ -15,11 +15,12 @@ class Comment extends Model
 
     protected $fillable = [
         'post_id', 'parent_id', 'nickname', 'email',
-        'website', 'content', 'is_approved', 'ip',
+        'website', 'content', 'is_approved', 'is_admin', 'ip',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
+        'is_admin' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

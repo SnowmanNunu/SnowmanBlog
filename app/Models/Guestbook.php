@@ -13,11 +13,12 @@ class Guestbook extends Model
 
     protected $fillable = [
         'nickname', 'email', 'website', 'content',
-        'reply', 'replied_at', 'is_approved', 'ip',
+        'reply', 'replied_at', 'is_approved', 'is_admin', 'ip',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
+        'is_admin' => 'boolean',
         'replied_at' => 'datetime',
     ];
 

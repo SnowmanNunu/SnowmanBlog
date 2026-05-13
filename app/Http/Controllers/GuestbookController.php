@@ -40,6 +40,7 @@ class GuestbookController extends Controller
             'content' => clean($validated['content']),
             'ip' => $request->ip(),
             'is_approved' => $isAdmin,
+            'is_admin' => $isAdmin,
         ]);
 
         $message = $isAdmin ? '留言已发布！' : '留言提交成功，等待审核！';

@@ -16,6 +16,9 @@
                         <div class="flex-1">
                             <div class="flex items-center space-x-2 mb-1">
                                 <span class="font-medium">{{ $comment->nickname }}</span>
+                                @if($comment->is_admin)
+                                    <span class="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">博主</span>
+                                @endif
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ $comment->created_at->format('Y-m-d H:i') }}</span>
                             </div>
                             <div class="comment-markdown text-gray-700 dark:text-gray-300">{!! clean(Str::markdown($comment->content)) !!}</div>
@@ -47,6 +50,9 @@
                                         <div class="bg-gray-50 dark:bg-gray-900 rounded p-3">
                                             <div class="flex items-center space-x-2 mb-1">
                                                 <span class="font-medium">{{ $reply->nickname }}</span>
+                                                @if($reply->is_admin)
+                                                    <span class="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">博主</span>
+                                                @endif
                                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ $reply->created_at->format('Y-m-d H:i') }}</span>
                                             </div>
                                             <div class="comment-markdown text-gray-700 dark:text-gray-300">{!! clean(Str::markdown($reply->content)) !!}</div>
