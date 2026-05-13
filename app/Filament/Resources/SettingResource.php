@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class SettingResource extends Resource
 {
@@ -47,6 +48,18 @@ class SettingResource extends Resource
                     ])
                     ->default('text')
                     ->live(),
+                Forms\Components\Placeholder::make('current_image')
+                    ->label('当前图片')
+                    ->content(function ($record): HtmlString {
+                        if (! $record || ! $record->value) {
+                            return new HtmlString('<span class="text-gray-400 text-sm">暂无图片</span>');
+                        }
+
+                        return new HtmlString(
+                            '<img src="' . asset($record->value) . '" class="h-16 w-auto rounded shadow-sm border border-gray-200">'
+                        );
+                    })
+                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
                 Forms\Components\Textarea::make('value')
                     ->maxLength(65535)
                     ->label('配置值')
@@ -54,7 +67,7 @@ class SettingResource extends Resource
                     ->hidden(fn (Forms\Get $get) => $get('type') === 'image')
                     ->dehydrated(fn (Forms\Get $get) => $get('type') !== 'image'),
                 Forms\Components\FileUpload::make('value')
-                    ->label('图片')
+                    ->label('上传新图片')
                     ->image()
                     ->disk('public')
                     ->directory('settings')

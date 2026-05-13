@@ -53,4 +53,20 @@ class Setting extends Model
         );
         Cache::tags(['settings'])->flush();
     }
+
+    public static function getImageUrl(string $key, ?string $default = null): ?string
+    {
+        $value = static::get($key, $default);
+
+        if ($value === null) {
+            return $default ? asset($default) : null;
+        }
+
+        // Filament FileUpload stores files under storage/app/public/settings/
+        if (str_starts_with($value, 'settings/')) {
+            return asset('storage/' . $value);
+        }
+
+        return asset($value);
+    }
 }

@@ -17,7 +17,7 @@
     <meta name="description" content="@yield('meta_description', $siteDescription)">
     <meta name="keywords" content="@yield('meta_keywords', '')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
-    <link rel="icon" type="image/x-icon" href="{{ asset(\App\Models\Setting::get('site_logo', 'images/logo.jpg')) }}">
+    <link rel="icon" type="image/x-icon" href="{{ \App\Models\Setting::getImageUrl('site_logo', 'images/logo.jpg') }}">
 
     <!-- Open Graph -->
     <meta property="og:title" content="@yield('og_title', $siteTitle . ' - ' . $siteDescription)">
@@ -55,7 +55,7 @@
                 <div class="flex items-center">
                     <a href="{{ route('blog.index') }}" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
                         @if(\App\Models\Setting::get('site_logo'))
-                            <img src="{{ asset(\App\Models\Setting::get('site_logo')) }}" alt="{{ $siteTitle }}" class="h-8 w-auto rounded">
+                            <img src="{{ \App\Models\Setting::getImageUrl('site_logo') }}" alt="{{ $siteTitle }}" class="h-8 w-auto rounded">
                         @else
                             <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{{ $siteTitle }}</span>
                         @endif
