@@ -76,6 +76,9 @@
                     <a href="{{ route('guestbook.index') }}" class="px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-sm font-medium">
                         留言板
                     </a>
+                    <a href="{{ route('series.index') }}" class="px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-sm font-medium">
+                        专栏
+                    </a>
                     <a href="/admin" class="px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-sm font-medium">
                         后台管理
                     </a>
@@ -163,6 +166,7 @@
         <a href="{{ route('blog.category', $pcat->slug) }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ $pcat->name }}</a>
         @endforeach
         <a href="{{ route('guestbook.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ __('Guestbook') }}</a>
+        <a href="{{ route('series.index') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">专栏</a>
         <a href="/admin" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium">{{ __('Admin') }}</a>
         <button @click="mobileMenuOpen = false; searchOpen = true" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 font-medium flex items-center space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

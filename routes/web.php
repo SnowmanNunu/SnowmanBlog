@@ -14,6 +14,7 @@ Route::get('/', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/post/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
 Route::get('/tag/{slug}', [BlogController::class, 'tag'])->name('blog.tag');
+Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('/series/{slug}', [SeriesController::class, 'show'])->name('series.show');
 Route::get('/search', [BlogController::class, 'search'])->name('blog.search');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');

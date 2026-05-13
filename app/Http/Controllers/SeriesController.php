@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
+    public function index()
+    {
+        $series = Series::withCount('publishedPosts')
+            ->orderBy('sort_order')
+            ->orderByDesc('published_posts_count')
+            ->get();
+
+        return view('blog.series.index', compact('series'));
+    }
+
     public function show(string $slug)
     {
         $series = Series::where('slug', $slug)->firstOrFail();

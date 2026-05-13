@@ -100,6 +100,34 @@
             </div>
             @endif
 
+            @php($sidebarSeries = \App\Models\Series::withCount("publishedPosts")->orderBy("sort_order")->orderByDesc("published_posts_count")->limit(5)->get())
+            @if($sidebarSeries->count())
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    专栏
+                </h3>
+                <div class="space-y-3">
+                    @foreach($sidebarSeries as $s)
+                        <a href="{{ route("series.show", $s->slug) }}" class="flex items-center gap-3 group">
+                            @if($s->cover_image)
+                            <img src="{{ media_url($s->cover_image) }}" alt="{{ $s->name }}" class="w-10 h-10 object-cover rounded-lg flex-shrink-0" loading="lazy">
+                            @else
+                            <div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            </div>
+                            @endif
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">{{ $s->name }}</div>
+                                <div class="text-xs text-gray-400 dark:text-gray-500">{{ $s->published_posts_count }} 篇文章</div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <a href="{{ route("series.index") }}" class="mt-4 block text-center text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">查看全部专栏 →</a>
+            </div>
+            @endif
+
             @if(isset($tags) && $tags->count())
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-4 flex items-center gap-2">
