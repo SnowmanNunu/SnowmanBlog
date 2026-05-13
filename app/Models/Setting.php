@@ -64,7 +64,7 @@ class Setting extends Model
 
         // Filament FileUpload stores files under storage/app/public/settings/
         if (str_starts_with($value, 'settings/')) {
-            return asset('storage/' . $value);
+            return asset('storage/'.$value);
         }
 
         return asset($value);

@@ -56,7 +56,7 @@ class SettingResource extends Resource
                         }
 
                         return new HtmlString(
-                            '<img src="' . asset($record->value) . '" class="h-16 w-auto rounded shadow-sm border border-gray-200">'
+                            '<img src="'.asset($record->value).'" class="h-16 w-auto rounded shadow-sm border border-gray-200">'
                         );
                     })
                     ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
