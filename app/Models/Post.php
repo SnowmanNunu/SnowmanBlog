@@ -46,7 +46,7 @@ class Post extends Model
             Cache::tags(['posts'])->flush();
 
             if ($post->wasRecentlyCreated && $post->is_published && $post->published_at <= now()) {
-                Subscriber::verified()-chunk(100, function ($subscribers) use ($post) {
+                Subscriber::verified()->chunk(100, function ($subscribers) use ($post) {
                     foreach ($subscribers as $subscriber) {
                         Mail::to($subscriber->email)->send(new NewPostNotification($post, $subscriber));
                     }
