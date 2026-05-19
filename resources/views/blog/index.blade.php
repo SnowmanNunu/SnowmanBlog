@@ -1,6 +1,6 @@
 @extends('layouts.blog')
 
-@section('title', isset($category) ? $category->name : (isset($tag) ? $tag->name : __('Home')))
+@section('title', isset($category) ? $category->name : (isset($tag) ? $tag->name : $siteTitle . ' - ' . $siteDescription))
 
 @section('jsonld')
 {
