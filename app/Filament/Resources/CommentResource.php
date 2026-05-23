@@ -55,23 +55,65 @@ class CommentResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_admin')->label('博主回复'),
             ])
             ->actions([
-                Tables\Actions\Action::make('toggleApprove')
-                    ->label(fn (Comment $record): string => $record->is_approved ? '取消审核' : '通过')
-                    ->icon(fn (Comment $record): string => $record->is_approved ? 'heroicon-m-x-mark' : 'heroicon-m-check')
-                    ->color(fn (Comment $record): string => $record->is_approved ? 'warning' : 'success')
+                Tables\Actions\Action::make('approve')
+                    ->label('通过')
+                    ->icon('heroicon-m-check')
+                    ->color('success')
+                    ->visible(fn (Comment $record): bool => ! $record->is_approved)
                     ->action(function (Comment $record) {
-                        $record->update(['is_approved' => ! $record->is_approved]);
+                        $record->update(['is_approved' => true]);
                         Notification::make()
                             ->success()
-                            ->title($record->is_approved ? '已通过' : '已取消审核')
+                            ->title('已通过')
                             ->send();
                     })
                     ->requiresConfirmation()
-                    ->modalHeading(fn (Comment $record): string => $record->is_approved ? '取消审核' : '审核通过')
-                    ->modalDescription(fn (Comment $record): string => $record->is_approved
-                        ? "确定取消审核 {$record->nickname} 的评论吗？"
-                        : "确定通过 {$record->nickname} 的评论吗？")
-                    ->modalSubmitActionLabel(fn (Comment $record): string => $record->is_approved ? '取消审核' : '确认通过'),
+                    ->modalHeading('审核通过')
+                    ->modalDescription(fn (Comment $record): string => "确定通过 {$record->nickname} 的评论吗？")
+                    ->modalSubmitActionLabel('确认通过'),
+                Tables\Actions\Action::make('reject')
+                    ->label('拒绝')
+                    ->icon('heroicon-m-x-mark')
+                    ->color('danger')
+                    ->visible(fn (Comment $record): bool => $record->is_approved)
+                    ->action(function (Comment $record) {
+                        $record->update(['is_approved' => false]);
+                        Notification::make()
+                            ->success()
+                            ->title('已拒绝')
+                            ->send();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('拒绝评论')
+                    ->modalDescription(fn (Comment $record): string => "确定拒绝 {$record->nickname} 的评论吗？")
+                    ->modalSubmitActionLabel('确认拒绝'),
+                Tables\Actions\Action::make('reply')
+                    ->label('回复')
+                    ->icon('heroicon-m-chat-bubble-left-ellipsis')
+                    ->color('info')
+                    ->form([
+                        Forms\Components\Textarea::make('content')
+                            ->required()
+                            ->label('回复内容')
+                            ->placeholder('请输入回复内容…'),
+                    ])
+                    ->action(function (array $data, Comment $record) {
+                        Comment::create([
+                            'post_id' => $record->post_id,
+                            'parent_id' => $record->id,
+                            'nickname' => auth()->user()->name ?? '博主',
+                            'email' => auth()->user()->email ?? '',
+                            'content' => $data['content'],
+                            'is_admin' => true,
+                            'is_approved' => true,
+                        ]);
+                        Notification::make()
+                            ->success()
+                            ->title('回复成功')
+                            ->send();
+                    })
+                    ->modalHeading('回复评论')
+                    ->modalSubmitActionLabel('提交回复'),
                 Tables\Actions\EditAction::make()->label('编辑'),
                 Tables\Actions\DeleteAction::make()->label('删除'),
             ])

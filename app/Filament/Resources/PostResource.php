@@ -6,6 +6,7 @@ use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -160,6 +161,23 @@ class PostResource extends Resource
                 Tables\Filters\TrashedFilter::make()->label('回收站'),
             ])
             ->actions([
+                Tables\Actions\Action::make('togglePublish')
+                    ->label(fn (Post $record): string => $record->is_published ? '下架' : '发布')
+                    ->icon(fn (Post $record): string => $record->is_published ? 'heroicon-m-eye-slash' : 'heroicon-m-eye')
+                    ->color(fn (Post $record): string => $record->is_published ? 'warning' : 'success')
+                    ->action(function (Post $record) {
+                        $record->update(['is_published' => ! $record->is_published]);
+                        Notification::make()
+                            ->success()
+                            ->title($record->is_published ? '已发布' : '已下架')
+                            ->send();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading(fn (Post $record): string => $record->is_published ? '下架文章' : '发布文章')
+                    ->modalDescription(fn (Post $record): string => $record->is_published
+                        ? "确定下架文章「{$record->title}」吗？"
+                        : "确定发布文章「{$record->title}」吗？")
+                    ->modalSubmitActionLabel(fn (Post $record): string => $record->is_published ? '确认下架' : '确认发布'),
                 Tables\Actions\EditAction::make()->label('编辑'),
                 Tables\Actions\RestoreAction::make()->label('恢复'),
                 Tables\Actions\ForceDeleteAction::make()->label('彻底删除'),
