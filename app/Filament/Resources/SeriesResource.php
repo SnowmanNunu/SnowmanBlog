@@ -57,6 +57,7 @@ class SeriesResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->withCount('posts'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
